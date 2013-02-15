@@ -11,8 +11,10 @@ var events =
 
 window.startTrackEvents = function (){
     var root = document.body;
+    console.log("binding event handlers");
     bindall(root);
-}
+    console.log("done binding");
+};
 function bindall(base){
     var elms = base.childNodes;
     if (elms){
@@ -20,9 +22,9 @@ function bindall(base){
         {
             for(var j = 0; j < events.length; j++)
             {
-                elms[i][events[j]] = globalHandler;
-                //bindall(elms[i]);
+                elms[i][events[j]] =globalHandler;           
             }
+            bindall(elms[i]);
         }
     }
 }
@@ -31,13 +33,14 @@ function globalHandler(e)
     if (!window.trackEvents){
         window.trackEvents = [];
     }
+    console.log("TRACKING EVENT");
     window.trackEvents.push(e);
 }
 
 window.trackEventsPlayBack = function(){
     globalHandler = function(){};
     playback();
-}
+};
 
 function playback(){
     console.log("//starting test");
@@ -47,7 +50,13 @@ function playback(){
     }
     console.log("//end test");
 }
-
+if (window.tracking){
+window.trackEventsPlayBack();
+window.tracking=false;
+}else{
+window.tracking=true;
+window.startTrackEvents();
+}
 
 })(document,window);
 //@ sourceURL=trackEvents.js
