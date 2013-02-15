@@ -20,19 +20,18 @@ function bindall(base){
     if (elms){
         for(var i = 0; i < elms.length; i++)
         {
+            bindall(elms[i]);
             for(var j = 0; j < events.length; j++)
             {
                 elms[i][events[j]] =globalHandler;           
             }
-            bindall(elms[i]);
+            
         }
     }
 }
 function globalHandler(e)
 {
-    if (!window.trackEvents){
-        window.trackEvents = [];
-    }
+    
     console.log("TRACKING EVENT");
     window.trackEvents.push(e);
 }
@@ -46,10 +45,13 @@ function playback(){
     console.log("//starting test");
     for(var i=0;i<window.trackEvents.length;i++){
         var e = window.trackEvents[i];
-        console.log("#"+(i+1)+ " "+ e.type+" event triggered from "+e.srcElement.id+" at "+e.timeStamp);
+        console.log("#"+(i+1)+ " "+ e.type+" event triggered from "+(e.srcElement.id ||e.srcElement.className)  +" at "+e.timeStamp);
     }
     console.log("//end test");
 }
+    if (!window.trackEvents){
+        window.trackEvents = [];
+    }
 if (window.tracking){
 window.trackEventsPlayBack();
 window.tracking=false;
