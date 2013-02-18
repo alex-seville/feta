@@ -20,4 +20,5 @@ If you use it in the browser on a page that is already using jquery,you don't ne
 7. Run `feta.stop()` and a readable list of events will be displayed
 8. Run `feta.report(true,feta.play)` to have the events re-played in the browser
 
-* Steps 1-4 can be avoided if you're able to include a script reference to feta.js on the page itself
+
+*NOTE: Steps 1-4 can be avoided if you're able to include a script reference to feta.js on the page itself*
