@@ -6,11 +6,11 @@ setTimeout(function(){ $('HTML BODY DIV.main ARTICLE DIV#designing.designing DIV
  } ,2583);
 setTimeout(function(){
 	//Add your verification code here
-
-	if (parseFloat($('HTML BODY DIV.main ARTICLE DIV#designing.designing DIV.designing-content-wrap DIV.takeover-container .takeover-content').css("opacity")) < 1){
-		console.log("No Regression");
+	var opacNum = parseFloat($('HTML BODY DIV.main ARTICLE DIV#designing.designing DIV.designing-content-wrap DIV.takeover-container .takeover-content').css("opacity"));
+	if (opacNum < 1){
+		console.log("***No Regression");
 	}else{
-		console.log("Regression!");
+		console.log("***Regression! Opacity:",opacNum);
 	}
-},2583);
+},2600);
 })(jQuery);
