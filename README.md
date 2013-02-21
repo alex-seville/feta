@@ -1,12 +1,11 @@
 # feta.js
 ========
 
-feta.js, automated regression testing
+Automated regression testing
 
-## Install
+## Requirements
 
-Run `bower install` to install jquery (a dev dependence).  
-If you use it in the browser on a page that is already using jquery,you don't need to worry about this.
+Feta is dependent on jQuery for event triggering. 
 
 ## Usage
 
@@ -25,4 +24,10 @@ If you use it in the browser on a page that is already using jquery,you don't ne
 OR
 
 -Run `phantomjs feta/lib/phantom.js <url>`
+
+### Todo
+
+-for getSelector, we need to evaluate siblings where there is nothing to distinguish them (i.e. a list of LI's)
+-capture more events, and different types
+-clean up feta.js
 
