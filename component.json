@@ -4,6 +4,7 @@
   "main": "./lib/feta.js",
   "devDependencies": {
     "qunit": "~1",
-    "blanket": "~1.0.2"
+    "blanket": "~1.0.2",
+    "jquery": null
   }
 }

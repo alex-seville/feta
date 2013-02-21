@@ -7,8 +7,18 @@
 </head>
 <body>
   <div id="qunit"></div>
-  <div id="qunit-fixture"></div>
+  <div id="qunit-fixture">
+    <div id="siblingTest">
+        <ul>
+            <li>one</li>
+            <li>two</li>
+            <li>three</li>
+        </ul>
+    </div>
+  </div>
+  <script src="../components/jquery/jquery.js"></script>
   <script src="../components/qunit/qunit.js"></script>
+  <script src="../lib/feta.js"></script>
   <script src="tests.js"></script>
 </body>
 </html>
