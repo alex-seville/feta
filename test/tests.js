@@ -1,7 +1,7 @@
 test( "sibling selector", function() {
     expect(2);
   feta.start();
-  $("#siblingTest ul li").eq(2).trigger("click");
+  $("#siblingTest ul li").eq(1).trigger("click");
   feta.stop(function(results){
     ok( results.events.length === 1, "Correct number of events." );
     $("#siblingTest ul li").eq(0).click(function(){
