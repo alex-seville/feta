@@ -27,7 +27,7 @@ OR
 
 ### Todo
 
--for getSelector, we need to evaluate siblings where there is nothing to distinguish them (i.e. a list of LI's)
--capture more events, and different types
--clean up feta.js
+-for getSelector, we need to evaluate siblings where there is nothing to distinguish them (i.e. a list of LI's)  
+-capture more events, and different types  
+-clean up feta.js  
 
