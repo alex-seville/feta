@@ -7,6 +7,10 @@ Automated regression testing
 
 Feta is dependent on jQuery for event triggering. 
 
+## Install
+
+`bower install feta`
+
 ## Usage
 
 ### Automated Test Creation
