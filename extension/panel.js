@@ -1,3 +1,4 @@
+//http://code.google.com/p/chromium/issues/detail?id=124791
 
 document.addEventListener('DOMContentLoaded', function() {
         var recording=false;
@@ -18,7 +19,5 @@ document.addEventListener('DOMContentLoaded', function() {
         };
 });
 
-function do_something(msg) {
-    document.body.textContent += '\n' + msg; // Stupid example, PoC
-}
+
 

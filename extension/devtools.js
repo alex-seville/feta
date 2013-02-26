@@ -8,21 +8,41 @@ chrome.devtools.panels.create("Feta",
                               "Panel.html",
                               function(panel) {
 
-chrome.extension.onMessage.addListener(
-  function(request, sender, sendResponse) {
-    if (request.recording){
-        chrome.devtools.inspectedWindow.eval(
-        "typeof jQuery !== 'undefined'",
-         function(result, isException) {
-           if (isException)
-             alert("the page is not using jQuery");
-           else
-             alert("The page is using jQuery v" + result);
-         }
-         );
-     }
-      //sendResponse({farewell: "goodbye"});
-  });
+    var data = [];
+    var port = chrome.extension.connect({name:"devtools"});
+    port.onMessage.addListener(function(msg) {
+        // Write information to the panel, if exists.
+        // If we don't have a panel reference (yet), queue the data.
+        if (_window) {
+            _window.do_something(msg);
+        } else {
+            data.push(msg);
+        }
+    });
+
+    panel.onShown.addListener(function tmp(panelWindow) {
+        panel.onShown.removeListener(tmp); // Run once only
+        _window = panelWindow;
+
+        // Release queued data
+        var msg;
+        while (msg = data.shift()) 
+            _window.do_something(msg);
+        // Just to show that it's easy to talk to pass a message back:
+        _window.respond = function(msg) {
+            port.postMessage(msg);
+            if(msg){
+                chrome.devtools.inspectedWindow.eval(
+                "typeof jQuery !== 'undefined'",
+                 function(result, isException) {
+                   if (isException)
+                     alert("the page is not using jQuery");
+                   else
+                     alert("The page is using jQuery v" + result);
+                 });
+            }
+        };
+    });
 
 /*chrome.devtools.inspectedWindow.eval(
     "typeof jQuery !== 'undefined'",
