@@ -21,6 +21,9 @@ chrome.devtools.panels.create("Feta",
     });
 
     panel.onShown.addListener(function tmp(panelWindow) {
+
+        loadFeta();
+       
         panel.onShown.removeListener(tmp); // Run once only
         _window = panelWindow;
 
@@ -32,13 +35,25 @@ chrome.devtools.panels.create("Feta",
         _window.respond = function(msg) {
             port.postMessage(msg);
             if(msg){
+               
+                
                 chrome.devtools.inspectedWindow.eval(
-                "typeof jQuery !== 'undefined'",
+                "feta.start();",
                  function(result, isException) {
                    if (isException)
-                     alert("the page is not using jQuery");
+                     alert("error");
                    else
-                     alert("The page is using jQuery v" + result);
+                     alert("started");
+                 });
+    
+            }else{
+                chrome.devtools.inspectedWindow.eval(
+                "feta.stop();",
+                 function(result, isException) {
+                   if (isException)
+                     alert("error");
+                   else
+                     alert("stopped:",result);
                  });
             }
         };

@@ -1,3 +1,5 @@
+
+
 //from http://stackoverflow.com/questions/11661613/chrome-devpanel-extension-communicating-with-background-page
 
 var ports = {};
@@ -11,6 +13,7 @@ chrome.extension.onConnect.addListener(function(port) {
     port.onMessage.addListener(function(msg) {
         // Whatever you wish
         console.log(msg);
+        
     });
 });
 // Function to send a message to all devtool.html views:

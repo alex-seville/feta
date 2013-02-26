@@ -4,6 +4,9 @@
   "description": "Displays message if jQuery is installed.",
   "devtools_page": "devtools.html",
    "options_page": "Panel.html",
-   "background":{"scripts":["background.js"]},
+   "background":{"scripts":["background.js","feta.js"]},
+   "permissions": [
+      "tabs", "http://*/*"
+    ],
   "manifest_version": 2
 }
