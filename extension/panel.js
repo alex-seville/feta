@@ -1,4 +1,3 @@
-//http://code.google.com/p/chromium/issues/detail?id=124791
 
 document.addEventListener('DOMContentLoaded', function() {
         var recording=false;

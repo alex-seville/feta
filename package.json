@@ -1,0 +1,30 @@
+{
+  "name": "feta",
+  "version": "0.0.1",
+  "description": "automated regression testing",
+  "main": "lib/feta.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alex-seville/feta.git"
+  },
+  "keywords": [
+    "testing",
+    "regression"
+  ],
+  "author": "alex-seville",
+  "license": "BSD",
+  "dependencies": {
+    "grunt": "~0.4.0",
+    "grunt-contrib-uglify": "~0.1.2",
+    "grunt-contrib-copy": "~0.4.0"
+  },
+  "devDependencies": {
+    "grunt-contrib-concat": "~0.1.3"
+  }
+}
