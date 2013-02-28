@@ -26,9 +26,8 @@ chrome.devtools.panels.create("Feta",
            fetaStr,
      function(result, isException) {
        if (isException)
-         alert("the page is not using jQuery");
-       else
-         alert("The page is using jQuery v" + result);
+         alert("Error loading feta.");
+       
      });
        
         panel.onShown.removeListener(tmp); // Run once only
@@ -36,21 +35,20 @@ chrome.devtools.panels.create("Feta",
 
         // Release queued data
         var msg;
-        while (msg = data.shift()) 
+        while (msg = data.shift()){
             _window.do_something(msg);
+        }
         // Just to show that it's easy to talk to pass a message back:
         _window.respond = function(msg) {
-            port.postMessage(msg);
+            //port.postMessage(msg);
             if(msg){
-               
-                
+                    
                 chrome.devtools.inspectedWindow.eval(
                 "feta.start();",
                  function(result, isException) {
                    if (isException)
                      alert("error");
-                   else
-                     alert("started");
+                   
                  });
     
             }else{
@@ -59,8 +57,7 @@ chrome.devtools.panels.create("Feta",
                  function(result, isException) {
                    if (isException)
                      alert("error");
-                   else
-                     alert("stopped:",result);
+                   
                  });
             }
         };
