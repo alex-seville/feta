@@ -14,7 +14,7 @@ module.exports = function(grunt) {
       feta:{
         options: {
           header: "var fetaStr=\"",
-          footer: "\";"
+          footer: "\";\n//@ sourceURL=feta.js"
         },
         files:{
           "tmp/feta.min.str.js": "tmp/feta.min.js"
