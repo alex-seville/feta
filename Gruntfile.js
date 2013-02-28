@@ -40,7 +40,8 @@ module.exports = function(grunt) {
           {src: ['extension/feta.png'], dest: 'dist/feta.png', filter: 'isFile'},
           {src: ['extension/manifest.json'], dest: 'dist/manifest.json', filter: 'isFile'},
           {src: ['extension/Panel.html'], dest: 'dist/Panel.html', filter: 'isFile'},
-          {src: ['extension/panel.js'], dest: 'dist/panel.js', filter: 'isFile'}
+          {src: ['extension/panel.js'], dest: 'dist/panel.js', filter: 'isFile'},
+           {src: ['extension/FileSaver.min.js'], dest: 'dist/FileSaver.min.js', filter: 'isFile'}
         ]
       }
     }

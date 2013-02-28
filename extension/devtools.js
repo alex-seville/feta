@@ -70,16 +70,16 @@ chrome.devtools.panels.create("Feta",
                      alert("error");
                    else{
                      _window.saveFile(result);
-
+                     //saveAs()
                    }
                  });
             }
         };
 
-        _window.saveNow = function(url){
+        _window.saveNow = function(url,fname){
             var s = "var a = document.createElement('a');";
                 s+= "a.href = '"+url+"';";
-                s+= "a.download = 'test.js';"; // set the file name
+                s+= "a.download = '"+ fname +"';"; // set the file name
                 s+= "a.style.display = 'none';";
                 s+= "document.body.appendChild(a);";
                 s+= "a.click();"; //this is probably the key - simulatating a click on a download link

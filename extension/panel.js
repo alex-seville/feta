@@ -37,11 +37,16 @@ document.addEventListener('DOMContentLoaded', function() {
              
               document.getElementById("iframe").src = window.webkitURL.createObjectURL(blob);
               */
+              var fname = confirm("Enter a filename for your test script");
+             
               window.URL = window.webkitURL || window.URL;
-                file = new Blob(fileData,{"type":"text\/plain"}); //populate the file with whatever text it is that you want
+              
+                file = new Blob([fileData],{"type":"text\/plain"}); //populate the file with whatever text it is that you want
+              
                 var url = window.URL.createObjectURL(file);
-                console.log("url:",url);
-                saveNow(url);
+              saveNow(url,fname);
+                
+               
                 
           };
 });
