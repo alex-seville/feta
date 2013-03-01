@@ -1,0 +1,12 @@
+{
+  "name": "Has jQuery?",
+  "version": "1.1",
+  "description": "Displays message if jQuery is installed.",
+  "devtools_page": "devtools.html",
+   "options_page": "panel.html",
+   "background":{"scripts":["background.js"]},
+   "permissions": [
+      "tabs", "http://*/*"
+    ],
+  "manifest_version": 2
+}
