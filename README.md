@@ -5,25 +5,25 @@ Automated regression testing
 
 ## Requirements
 
-Feta is dependent on jQuery for event triggering. 
+Feta only works on pages that implement jQuery for the moment. 
 
 ## Install
 
-`bower install feta`
+Enable 'developer mode' in Chrome extensions and click 'load unpacked extension'.  Select the `dist` directory to load the extension.
 
 ## Usage
 
 ### Automated Test Creation
 
-1. Load `feta` through devtools using the command: `s = document.createElement('script');  s.src = 'http://localhost:3000/lib/feta.js'; document.body.appendChild(s);`
-2. Run `feta.start();`
+1. Open devtools and click on the Feta tab
+2. Click `Start Recording`
 3. Work through typical behaviours on the site
-4. Run `feta.stop()` to stop capturing events and create the output script (it will appear in your devtools scripts tab as "feta_output.js")
+4. Click `Stop Recording` to stop capturing events and create the output script (it will prompt you for a filename and then download automatically)
 5. Validations can be added to this file, or it can be incorporated into an automated test suite
 
 ### Regression Testing
 
--Load your test script through devtools using the command: `s = document.createElement('script');  s.src = 'http://localhost:3000/feta_output.js'; document.body.appendChild(s);`
+-Click `Load Script` to load and play a test script
 
 OR
 
@@ -32,4 +32,10 @@ OR
 ### Todo
  
 -capture more events, and different types
+-reload feta when inspected frame changes
+-improve panel ui
+-don't automatically save test script after recording
+-show regression result in panel
+-maybe have test manifest to load multiple tests
+-load jQuery onto page if not found
 

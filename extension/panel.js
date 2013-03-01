@@ -31,12 +31,12 @@ document.addEventListener('DOMContentLoaded', function() {
         };
 
         window.saveFile = function(fileData){
-                /*
-              var blob = new Blob(fileData, { "type" : "text\/javascript" });
+                
+              //var blob = new Blob([fileData], { "type" : "application\/x-please-download-me" });
               
              
-              document.getElementById("iframe").src = window.webkitURL.createObjectURL(blob);
-              */
+              //document.getElementById("iframe").src = window.webkitURL.createObjectURL(blob);
+              
               var fname = prompt("Enter a filename for your test script","");
              
               window.URL = window.webkitURL || window.URL;
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
               
                 var url = window.URL.createObjectURL(file);
               saveNow(url,fname);
-                
+               
                
                 
           };

@@ -77,7 +77,7 @@ chrome.devtools.panels.create("Feta",
         };
 
         _window.saveNow = function(url,fname){
-            
+            fname = fname === "" ? "feta_output.js" : fname;
             var s = "var a = document.createElement('a');";
                 s+= "a.href = '"+url+"';";
                 s+= "a.download = '"+ fname +"';"; // set the file name
