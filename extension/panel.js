@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
              
               document.getElementById("iframe").src = window.webkitURL.createObjectURL(blob);
               */
-              var fname = confirm("Enter a filename for your test script");
+              var fname = prompt("Enter a filename for your test script","");
              
               window.URL = window.webkitURL || window.URL;
               

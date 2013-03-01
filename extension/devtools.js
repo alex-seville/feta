@@ -5,7 +5,7 @@
 
 chrome.devtools.panels.create("Feta",
                               "feta.png",
-                              "Panel.html",
+                              "panel.html",
                               function(panel) {
 
     var data = [];
@@ -77,6 +77,7 @@ chrome.devtools.panels.create("Feta",
         };
 
         _window.saveNow = function(url,fname){
+            
             var s = "var a = document.createElement('a');";
                 s+= "a.href = '"+url+"';";
                 s+= "a.download = '"+ fname +"';"; // set the file name
@@ -84,6 +85,7 @@ chrome.devtools.panels.create("Feta",
                 s+= "document.body.appendChild(a);";
                 s+= "a.click();"; //this is probably the key - simulatating a click on a download link
                 s+= "delete a;";// we don't need this anymore
+              
                 chrome.devtools.inspectedWindow.eval(
                 s,
                  function(result, isException) {
