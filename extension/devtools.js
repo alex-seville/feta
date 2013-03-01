@@ -1,5 +1,6 @@
 // Code based on off Chrome Devtools API Samples, Copyright (c) 2012 The Chromium Authors. All rights reserved.
 
+
 chrome.devtools.panels.create("Feta",
                               "feta.png",
                               "panel.html",
@@ -16,14 +17,44 @@ chrome.devtools.panels.create("Feta",
         }
     });
 
+    
+   
+
     panel.onShown.addListener(function tmp(panelWindow) {
 
+        var loadStr = "if (typeof jQuery === 'undefined'){"+
+            "var _s=document.createElement('script');"+
+            "_s.type='text/javascript';"+
+            "_s.src='http://code.jquery.com/jquery-1.9.1.min.js';"+
+            "_s.onload=function(){ "+fetaStr +"};"+
+            "_s.onerror=function(){ alert('Error loading Feta');};"+
+            "document.body.appendChild(_s);"+
+            "}else{"+
+            fetaStr +"}";
+
         chrome.devtools.inspectedWindow.eval(
-            fetaStr,
+           loadStr,
             function(result, isException) {
-              if (isException)
-                alert("Error loading feta.");
+             
         });
+
+
+
+        /*
+        
+        this fails, not sure why yet
+        it should reload feta when the page changes
+
+        chrome.tabs.onUpdated.addListener(function(tabId, changeInfo) {
+            if (changeInfo.status === 'complete') {
+                chrome.devtools.inspectedWindow.eval(
+                  loadStr,
+                    function(result, isException) {
+                     
+                });
+            }
+        });
+*/
        
         panel.onShown.removeListener(tmp); // Run once only
         _window = panelWindow;
@@ -64,7 +95,23 @@ chrome.devtools.panels.create("Feta",
             }
         };
 
-        _window.saveNow = function(url,fname){
+     
+         _window.saveNow = function(test,fname){
+            alert("save with:",test,fname);
+            chrome.devtools.inspectedWindow.eval(
+                "document.location.href",
+                 function(result, isException) {
+                     if (isException){
+                        alert("error");
+                     }else{
+                        
+                       
+                        _window.updateTestList(result,fname,test);
+                    }
+                 });
+         };
+
+        _window.download = function(url,fname){
             fname = fname === ""  ? "feta_output.js" : fname;
             //this code is from SO, but I'm missing the link right now
             var s = "var a = document.createElement('a');";
@@ -88,7 +135,6 @@ chrome.devtools.panels.create("Feta",
         };
     });
 });
-
 
 
 

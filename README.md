@@ -5,11 +5,13 @@ Automated regression testing
 
 ## Requirements
 
-Feta only works on pages that implement jQuery for the moment. 
+Feta uses any existing jQuery instance it finds, or loads it's own.  This shouldn't conflict with your code, but it may.
+
 
 ## Install
 
 Enable 'developer mode' in Chrome extensions and click 'load unpacked extension'.  Select the `dist` directory to load the extension.
+
 
 ## Usage
 
@@ -21,6 +23,7 @@ Enable 'developer mode' in Chrome extensions and click 'load unpacked extension'
 4. Click `Stop Recording` to stop capturing events and create the output script (it will prompt you for a filename and then download automatically)
 5. Validations can be added to this file, or it can be incorporated into an automated test suite
 
+
 ### Regression Testing
 
 -Click `Load Script` to load and play a test script
@@ -28,6 +31,7 @@ Enable 'developer mode' in Chrome extensions and click 'load unpacked extension'
 OR
 
 -Run `phantomjs feta/lib/phantom.js <url>`
+
 
 ### Todo
  
@@ -37,5 +41,4 @@ OR
 -don't automatically save test script after recording  
 -show regression result in panel  
 -maybe have test manifest to load multiple tests  
--load jQuery onto page if not found  
 

@@ -1,4 +1,5 @@
 
+var testlist={};
 document.addEventListener('DOMContentLoaded', function() {
     var recording=false;
     document.getElementById("record").onclick = function(){
@@ -29,7 +30,18 @@ document.addEventListener('DOMContentLoaded', function() {
        window.URL = window.webkitURL || window.URL;
        file = new Blob([fileData],{"type":"text\/plain"}); //populate the file with whatever text it is that you want
        var url = window.URL.createObjectURL(file);
-       saveNow(url,fname||"");
+       //saveNow(url,fname||"");
+       saveNow(fileData.toString(),fname||"");
+    };
+
+    window.updateTestList = function(url,fname,code){
+        alert("here with:",url,fname,code);
+        if (typeof testlist[url] === "undefined"){
+            testlist[url]=[];
+        }
+        testlist[url].push({"name":name,"test":code});
+        alert("update with:",testlist);
+        document.getElementById("testList").innerText = JSON.stringify(testlist,null,"\t");
     };
 });
 
