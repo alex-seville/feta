@@ -1,13 +1,9 @@
-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
+// Code based on off Chrome Devtools API Samples, Copyright (c) 2012 The Chromium Authors. All rights reserved.
 
 chrome.devtools.panels.create("Feta",
                               "feta.png",
                               "panel.html",
                               function(panel) {
-
     var data = [];
     var port = chrome.extension.connect({name:"devtools"});
     port.onMessage.addListener(function(msg) {
@@ -22,15 +18,12 @@ chrome.devtools.panels.create("Feta",
 
     panel.onShown.addListener(function tmp(panelWindow) {
 
-
-
         chrome.devtools.inspectedWindow.eval(
-           fetaStr,
-     function(result, isException) {
-       if (isException)
-         alert("Error loading feta.");
-       
-     });
+            fetaStr,
+            function(result, isException) {
+              if (isException)
+                alert("Error loading feta.");
+        });
        
         panel.onShown.removeListener(tmp); // Run once only
         _window = panelWindow;
@@ -42,37 +35,30 @@ chrome.devtools.panels.create("Feta",
         }
         _window.inject = function(script){
             chrome.devtools.inspectedWindow.eval(
-                   script,
-             function(result, isException) {
-               if (isException)
-                 alert("Error loading test script.");
+              script,
+              function(result, isException) {
+                if (isException)
+                  alert("Error loading test script.");
                
              });
         };
 
-        // Just to show that it's easy to talk to pass a message back:
         _window.respond = function(msg) {
-            //port.postMessage(msg);
             if(msg){
-                    
                 chrome.devtools.inspectedWindow.eval(
                 "feta.start();",
                  function(result, isException) {
                    if (isException)
                      alert("error");
-                   
                  });
-    
             }else{
                 chrome.devtools.inspectedWindow.eval(
-                //"feta.stop();",
                 "feta.stop(null,true);",
                  function(result, isException) {
                    if (isException)
                      alert("error");
                    else{
                      _window.saveFile(result);
-                     //saveAs()
                    }
                  });
             }
@@ -80,6 +66,7 @@ chrome.devtools.panels.create("Feta",
 
         _window.saveNow = function(url,fname){
             fname = fname === ""  ? "feta_output.js" : fname;
+            //this code is from SO, but I'm missing the link right now
             var s = "var a = document.createElement('a');";
                 s+= "a.href = '"+url+"';";
                 s+= "a.download = '"+ fname +"';"; // set the file name
@@ -88,24 +75,20 @@ chrome.devtools.panels.create("Feta",
                 s+= "a.click();"; //this is probably the key - simulatating a click on a download link
                 s+= "delete a;";// we don't need this anymore
               
-                chrome.devtools.inspectedWindow.eval(
-                s,
-                 function(result, isException) {
-                   if (isException)
-                     alert("error");
-                   else{
-                     //_window.saveFile(result);
+            chrome.devtools.inspectedWindow.eval(
+             s,
+             function(result, isException) {
+               if (isException)
+                 alert("error");
+               else{
+                 //_window.saveFile(result);
 
-                   }
-                 });
+               }
+            });
         };
     });
-
 });
 
-function loadFeta(){
-
-}
 
 
 
