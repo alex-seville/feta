@@ -31,11 +31,11 @@ OR
 
 ### Todo
  
--capture more events, and different types
--reload feta when inspected frame changes
--improve panel ui
--don't automatically save test script after recording
--show regression result in panel
--maybe have test manifest to load multiple tests
--load jQuery onto page if not found
+-capture more events, and different types  
+-reload feta when inspected frame changes  
+-improve panel ui  
+-don't automatically save test script after recording  
+-show regression result in panel  
+-maybe have test manifest to load multiple tests  
+-load jQuery onto page if not found  
 
