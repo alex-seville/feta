@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 file = new Blob([fileData],{"type":"text\/plain"}); //populate the file with whatever text it is that you want
               
                 var url = window.URL.createObjectURL(file);
-              saveNow(url,fname);
+              saveNow(url,fname||"");
                
                
                 

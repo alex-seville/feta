@@ -1,7 +1,7 @@
 {
-  "name": "Has jQuery?",
+  "name": "Feta",
   "version": "1.1",
-  "description": "Displays message if jQuery is installed.",
+  "description": "Automated Regression Testing",
   "devtools_page": "devtools.html",
    "options_page": "panel.html",
    "background":{"scripts":["background.js"]},
