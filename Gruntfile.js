@@ -37,23 +37,17 @@ module.exports = function(grunt) {
         files: [
           {src: ['extension/background.js'], dest: 'dist/background.js', filter: 'isFile'},
           {src: ['extension/devtools.html'], dest: 'dist/devtools.html', filter: 'isFile'},
-          {src: ['extension/images/feta.png'], dest: 'dist/images/feta.png', filter: 'isFile'},
           {src: ['extension/manifest.json'], dest: 'dist/manifest.json', filter: 'isFile'},
           {src: ['extension/Panel.html'], dest: 'dist/Panel.html', filter: 'isFile'},
           {src: ['extension/panel.js'], dest: 'dist/panel.js', filter: 'isFile'},
-           {src: ['extension/css/style.css'], dest: 'dist/css/style.css'},
-           {src: ['extension/images/record.png'], dest: 'dist/images/record.png'},
-           {src: ['extension/images/recording.png'], dest: 'dist/images/recording.png'},
-           {src: ['extension/images/load.png'], dest: 'dist/images/load.png'},
-           {src: ['extension/images/download.png'], dest: 'dist/images/download.png'},
-           {src: ['extension/images/big_feta.png'], dest: 'dist/images/big_feta.png'},
-           {src: ['extension/images/medium_feta.png'], dest: 'dist/images/medium_feta.png'}
-        ]
+          {expand: true,cwd: 'extension/css/', src: ['*'], dest: 'dist/css/'},
+          {expand: true,cwd: 'extension/images/', src: ['*.png'], dest: 'dist/images/'}
+          ]
       }
     },
     watch: {
       scripts: {
-        files: ['extension/*','lib/*'],
+        files: ['extension/**/*','lib/*'],
         tasks: ['default'],
         options: {
           nospawn: true

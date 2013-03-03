@@ -4,10 +4,21 @@ var testlist={};
 
 
 document.addEventListener('DOMContentLoaded', function() {
-    
+    var recording=false;
+    document.getElementById("record").onclick = function(){
+        if (!recording){
+            recording=true;
+            respond(recording);
+            document.getElementById("record").innerText = "Stop Recording";
+        }else{
+            recording=false;
+            respond(recording);
+            document.getElementById("record").innerText = "Start Recording";
+        }
+    };
 
-    loadTestClick = function(){
-        document.getElementById("loadTestUpload").onchange = function(){
+    document.getElementById("load").onclick = function(){
+        document.getElementById("loadUpload").onchange = function(){
             var fileList = this.files;
             //just one for now
             var file=fileList[0];
@@ -16,10 +27,9 @@ document.addEventListener('DOMContentLoaded', function() {
             reader.readAsText(file);
         };
         
-        document.getElementById("loadTestUpload").click();
+        document.getElementById("loadUpload").click();
     };
     
-    document.getElementById("loadTest").onclick=loadTestClick;
 
     window.saveFile = function(fileData){
        var fname = prompt("Enter a filename for your test script","");
