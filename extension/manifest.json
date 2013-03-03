@@ -3,7 +3,11 @@
   "version": "1.1",
   "description": "Automated Regression Testing",
   "devtools_page": "devtools.html",
-   "options_page": "panel.html",
+   "options_page": "Panel.html",
+   "icons": { 
+          "48": "images/medium_feta.png",
+          "128": "images/big_feta.png" 
+    },
    "background":{"scripts":["background.js"]},
    "permissions": [
       "tabs", "http://*/*"

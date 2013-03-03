@@ -2,7 +2,7 @@
 
 
 chrome.devtools.panels.create("Feta",
-                              "feta.png",
+                              "images/feta.png",
                               "panel.html",
                               function(panel) {
     var data = [];
@@ -17,7 +17,8 @@ chrome.devtools.panels.create("Feta",
         }
     });
 
-    
+    var btn = panel.createStatusBarButton("images/record.png", "Start Recording", false);
+   var downloadBtn = panel.createStatusBarButton("images/download.png", "Download Test", true);
    
 
     panel.onShown.addListener(function tmp(panelWindow) {
@@ -55,16 +56,26 @@ chrome.devtools.panels.create("Feta",
             }
         });
 */
-       
         panel.onShown.removeListener(tmp); // Run once only
         _window = panelWindow;
 
+
+        var record=true;
+        btn.onClicked.addListener(function(){
+            _window.respond(record);
+            record=!record;
+
+        });
+       
+       
+        
         // Release queued data
         var msg;
         while (msg = data.shift()){
             _window.do_something(msg);
         }
         _window.inject = function(script){
+            alert("s:",script);
             chrome.devtools.inspectedWindow.eval(
               script,
               function(result, isException) {
@@ -76,19 +87,26 @@ chrome.devtools.panels.create("Feta",
 
         _window.respond = function(msg) {
             if(msg){
+                
                 chrome.devtools.inspectedWindow.eval(
                 "feta.start();",
                  function(result, isException) {
                    if (isException)
                      alert("error");
+                    else{
+                        btn.update("images/recording.png", "Stop Recording");
+                    }
                  });
             }else{
+               
                 chrome.devtools.inspectedWindow.eval(
                 "feta.stop(null,true);",
+                
                  function(result, isException) {
                    if (isException)
                      alert("error");
                    else{
+                       btn.update("images/record.png", "Start Recording");
                      _window.saveFile(result);
                    }
                  });
@@ -97,7 +115,8 @@ chrome.devtools.panels.create("Feta",
 
      
          _window.saveNow = function(test,fname){
-            alert("save with:",test,fname);
+            //alert("save with:",test,fname);
+            fname = fname === ""  ? "feta_output.js" : fname;
             chrome.devtools.inspectedWindow.eval(
                 "document.location.href",
                  function(result, isException) {
