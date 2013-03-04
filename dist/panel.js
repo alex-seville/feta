@@ -32,10 +32,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
 
     window.saveFile = function(fileData){
-       var fname = prompt("Enter a filename for your test script","");
-       window.URL = window.webkitURL || window.URL;
-       file = new Blob([fileData],{"type":"text\/plain"}); //populate the file with whatever text it is that you want
-       var url = window.URL.createObjectURL(file);
+       var fname = prompt("Enter a name for your test script (excluding extension)","");
+      
        saveNow(fileData,fname||"");
        //download(url,fname||"");
 
@@ -43,6 +41,29 @@ document.addEventListener('DOMContentLoaded', function() {
        //saveNow(fileData,fname||"");
        //updateTestList(url,fname,fileData);
     };
+
+    function downloadTest(){
+        var test = document.getElementById("sideBar").getElementsByClassName("selected")[0];
+        var spans = test.getElementsByTagName("span");
+        var fname = spans[0].innerText;
+
+        var fileData = document.getElementById("testCode").innerText;
+
+       window.URL = window.webkitURL || window.URL;
+       file = new Blob([fileData],{"type":"text\/plain"}); //populate the file with whatever text it is that you want
+       var url = window.URL.createObjectURL(file);
+        
+        download(url,fname+".js");
+    }
+
+     function runTest(){
+        
+        var fileData = document.getElementById("testCode").innerText;
+
+      
+        
+        inject(fileData);
+    }
 
     window.updatePanel = function(){
 
@@ -90,8 +111,22 @@ document.addEventListener('DOMContentLoaded', function() {
         newLi.appendChild(titleDiv);
         sb.appendChild(newLi);
 
+        var codeDiv = document.createElement("div");
+        codeDiv.id="testCode";
+        codeDiv.innerText = code;
 
-        document.getElementById("testPanel").innerText = code;
+        var btnDiv = document.createElement("div");
+        btnDiv.classList.add("btnBar");
+        var dbtn = document.createElement("button");
+        dbtn.innerText = "Download";
+        dbtn.onclick = downloadTest;
+        var lbtn = document.createElement("button");
+        lbtn.innerText = "Run Test";
+        lbtn.onclick =runTest;
+        btnDiv.appendChild(lbtn);
+        btnDiv.appendChild(dbtn);
+        document.getElementById("testPanel").appendChild(btnDiv);
+        document.getElementById("testPanel").appendChild(codeDiv);
         /*
 
         <li title="" class="sidebar-tree-item audit-result-sidebar-tree-item">
@@ -112,11 +147,13 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById("sidebarTests").onclick=function(evt){
         document.getElementById("sidebarHeader").children[0].classList.remove("selected");
         document.getElementById("sidebarTests").children[0].classList.add("selected");
+        window.updatePanel();
     };
 
     document.getElementById("sidebarHeader").onclick=function(evt){
         document.getElementById("sidebarTests").children[0].classList.remove("selected");
         document.getElementById("sidebarHeader").children[0].classList.add("selected");
+         window.resetPanel();
     };
 
    

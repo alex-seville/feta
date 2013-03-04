@@ -6,6 +6,25 @@
  content: url(../images/test.png)
 }
 
+.btnBar{
+	position:fixed;
+	height: 40px;
+	width:100%;
+	background-color:#ccc;
+	margin-left:-16px;
+	padding-left:16px;
+	top:0;
+}
+
+#testCode{
+	position: absolute;
+	overflow: auto;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	top: 40px;
+}
+
 /* devtools.css */
 
 
