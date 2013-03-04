@@ -7,32 +7,13 @@
 <link rel='stylesheet' href='css/style.css'>
 </head>
 <body id="-webkit-web-inspector">
-  <!--
-     <header>
-          <h1>Feta</h1>
-          <h2>Automated Regression Testing</h2>
-    </header>
-    <div id='tasks'>
-      
-      <section id='playing'>
-        <button id="loadTest">Load Test Script</button><br>
-        <input id="loadTestUpload" type="file" style="display:none;"/>
-      </section>
-      <section id='tests'>
-        <ul id='testList'></ul>
-      </sction>
-    </div>
-  -->
-
-  <div id="main-panels" spellcheck="false" class="visible">
-    <div class="inspector-footer status-bar hidden"></div>
-    <div class="fill">
+  
       <div class="panel audits visible">
         <div class="split-view visible">
-          <div class="split-view-contents split-view-contents-vertical split-view-sidebar-left sidebar" style="left: 0px; width: 200px;">
+          <div id="sideBar" class="split-view-contents split-view-contents-vertical split-view-sidebar-left sidebar" style="left: 0px; width: 200px;">
             <ol class="sidebar-tree" tabindex="0">
               <li title="" class="parent expanded sidebar-tree-section hidden"></li>
-              <ol class="children expanded">
+              <ol id="sidebarHeader" class="children expanded">
                 <li title="" class="sidebar-tree-item audits-sidebar-tree-item selected">
                   <img class="icon"><div class="status"></div>
                   <div class="titles no-subtitle">
@@ -42,43 +23,26 @@
                 </li>
               </ol>
               <li title="" class="parent expanded sidebar-tree-section">Tests</li>
-              <ol class="children expanded">
-                <li title="" class="sidebar-tree-item audit-result-sidebar-tree-item">
-                  <img class="icon"><div class="status"></div>
-                  <div class="titles no-subtitle">
-                    <span class="title">https://plus.google.com/115133653231679625609/posts/UZF34wPJXsL (1)</span>
-                    <span class="subtitle"></span>
-                  </div>
-                </li>
+              <ol id="sidebarTests" class="children expanded">
+                
               </ol>
             </ol>
           </div>
           <div class="split-view-contents split-view-contents-vertical" style="right: 0px; left: 200px;">
             <div class="audit-launcher-view panel-enabler-view visible">
-              <div class="audit-launcher-view-content">
-                <h1>Automated Regression Testing</h1>
-                <!--
-                <label id="audit-launcher-selectall">
-                  <input type="checkbox">Select All
-                </label>
-                <div class="audit-categories-container">
-                  <label id="audit-category-item-NetworkUtilization"><input type="checkbox">Network Utilization</label>
-                  <label id="audit-category-item-PagePerformance"><input type="checkbox">Web Page Performance</label>
+              <div  class="audit-launcher-view-content">
+                <div id="admin">
+                  <h1>Automated Regression Testing</h1>
+                  
+                  <div class="flexible-space"></div>
+                  <div class="button-container">
+                   
+                    <button id="record">Record Regression Test</button>
+                    <button id="load">Load Regression Test</button>
+                    <input id="loadUpload" type="file" style="display:none;"/>
+                  </div>
                 </div>
-              -->
-                <div class="flexible-space"></div>
-                <div class="button-container">
-                  <!--
-                  <label>
-                    <input name="audit-mode" type="radio">Audit Present State
-                  </label>
-                  <label>
-                    <input name="audit-mode" type="radio">Reload Page and Audit on Load
-                  </label>
-                -->
-                  <button id="record">Record Regression Test</button>
-                  <button id="load">Load Regression Test</button>
-                  <input id="loadUpload" type="file" style="display:none;"/>
+                <div id="testPanel" style="display:none;">
                 </div>
               </div>
             </div>
@@ -86,8 +50,7 @@
           <div class="split-view-resizer split-view-resizer-vertical" style="left: 197.5px;"></div>
         </div>
       </div>
-    </div>
-  </div>
+
   
 <script src="panel.js"></script>
 </body>

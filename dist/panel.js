@@ -44,42 +44,80 @@ document.addEventListener('DOMContentLoaded', function() {
        //updateTestList(url,fname,fileData);
     };
 
+    window.updatePanel = function(){
+
+        document.getElementById("admin").style.display="none";
+        document.getElementById("testPanel").style.display="block";
+    };
+
+    window.resetPanel = function(){
+
+        document.getElementById("admin").style.display="block";
+        document.getElementById("testPanel").style.display="none";
+    };
+
     window.updateTestList = function(url,fname,code){
         
-        if (typeof testlist[url] === "undefined"){
-            testlist[url]=[];
-        }
-        testlist[url].push({"name":fname,"test":code});
         
-        refreshList();
+        var arr = Array.prototype.slice.call(document.getElementById("sideBar").getElementsByClassName("selected"));
+
+        arr.forEach(function(el){
+                        el.classList.remove("selected");
+                    });
+                    
+        var sb = document.getElementById("sidebarTests");
+        var newLi = document.createElement("li");
+        newLi.classList.add("sidebar-tree-item");
+        newLi.classList.add("audit-result-sidebar-tree-item");
+        newLi.classList.add("selected");
+        var img = document.createElement("img");
+        img.classList.add("icon");
+        var statusDiv = document.createElement("div");
+        statusDiv.classList.add("status");
+        img.appendChild(statusDiv);
+        var titleDiv = document.createElement("div");
+        titleDiv.classList.add("titles");
+        titleDiv.classList.add("subtitle");
+        var titleSpan = document.createElement("span");
+        titleSpan.classList.add("title");
+        titleSpan.innerText = fname;
+        var subtitleSpan = document.createElement("span");
+        subtitleSpan.classList.add("subtitle");
+        subtitleSpan.innerText = url;
+        titleDiv.appendChild(titleSpan);
+        titleDiv.appendChild(subtitleSpan);
+        newLi.appendChild(img);
+        newLi.appendChild(titleDiv);
+        sb.appendChild(newLi);
+
+
+        document.getElementById("testPanel").innerText = code;
+        /*
+
+        <li title="" class="sidebar-tree-item audit-result-sidebar-tree-item">
+                  <img class="icon"><div class="status"></div>
+                  <div class="titles no-subtitle">
+                    <span class="title">https://plus.google.com/115133653231679625609/posts/UZF34wPJXsL (1)</span>
+                    <span class="subtitle"></span>
+                  </div>
+                </li>
+                */
+
     };
 
 
 
-    function refreshList(){
-        var ul = document.getElementById("testList");
-        var urls = Object.keys(testlist);
+    
 
-        for(var j=0;j<urls.length;j++){
-            var li = document.createElement("li");
-            var currentUrl = urls[j];
-            li.innerHTML = currentUrl;
-            
-            var childUL = document.createElement("ul");
-            
-            for(var i=0;i<testlist[currentUrl].length;i++){
-                var childli = document.createElement("li");
-                
-                childli.innerHTML = testlist[currentUrl][i].name;
-                
-                childUL.appendChild(childli);
-            }
-             
-            li.appendChild(childUL);
-           
-            ul.appendChild(li);
-        }
-    }
+    document.getElementById("sidebarTests").onclick=function(evt){
+        document.getElementById("sidebarHeader").children[0].classList.remove("selected");
+        document.getElementById("sidebarTests").children[0].classList.add("selected");
+    };
+
+    document.getElementById("sidebarHeader").onclick=function(evt){
+        document.getElementById("sidebarTests").children[0].classList.remove("selected");
+        document.getElementById("sidebarHeader").children[0].classList.add("selected");
+    };
 
    
 });

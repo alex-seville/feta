@@ -18,7 +18,6 @@ chrome.devtools.panels.create("Feta",
     });
 
     var btn = panel.createStatusBarButton("images/record.png", "Start Recording", false);
-   var downloadBtn = panel.createStatusBarButton("images/download.png", "Download Test", true);
    
 
     panel.onShown.addListener(function tmp(panelWindow) {
@@ -75,7 +74,7 @@ chrome.devtools.panels.create("Feta",
             _window.do_something(msg);
         }
         _window.inject = function(script){
-            alert("s:",script);
+            
             chrome.devtools.inspectedWindow.eval(
               script,
               function(result, isException) {
@@ -126,6 +125,7 @@ chrome.devtools.panels.create("Feta",
                         
                        
                         _window.updateTestList(result,fname,test);
+                        _window.updatePanel();
                     }
                  });
          };
