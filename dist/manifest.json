@@ -10,7 +10,7 @@
     },
    "background":{"scripts":["background.js"]},
    "permissions": [
-      "tabs", "http://*/*"
+      "tabs", "http://*/*","https://*/*"
     ],
   "manifest_version": 2
 }

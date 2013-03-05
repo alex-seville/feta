@@ -7,15 +7,7 @@ chrome.devtools.panels.create("Feta",
                               function(panel) {
     var data = [];
     var port = chrome.extension.connect({name:"devtools"});
-    port.onMessage.addListener(function(msg) {
-        // Write information to the panel, if exists.
-        // If we don't have a panel reference (yet), queue the data.
-        if (_window) {
-            _window.do_something(msg);
-        } else {
-            data.push(msg);
-        }
-    });
+
 
     var btn = panel.createStatusBarButton("images/record.png", "Start Recording", false);
    
@@ -44,17 +36,28 @@ chrome.devtools.panels.create("Feta",
         
         this fails, not sure why yet
         it should reload feta when the page changes
-
-        chrome.tabs.onUpdated.addListener(function(tabId, changeInfo) {
-            if (changeInfo.status === 'complete') {
-                chrome.devtools.inspectedWindow.eval(
+*/
+       port.postMessage({code: "LOADFETA", data: loadStr});
+        port.onMessage.addListener(function(msg) {
+        // Write information to the panel, if exists.
+        // If we don't have a panel reference (yet), queue the data.
+        /*
+        if (_window) {
+            _window.do_something(msg);
+        } else {
+            data.push(msg);
+        }
+        */
+        if (msg === "PageChanged"){
+            chrome.devtools.inspectedWindow.eval(
                   loadStr,
                     function(result, isException) {
-                     
+                    
                 });
-            }
-        });
-*/
+        }
+    });
+
+
         panel.onShown.removeListener(tmp); // Run once only
         _window = panelWindow;
 

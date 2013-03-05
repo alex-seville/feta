@@ -12,7 +12,16 @@ chrome.extension.onConnect.addListener(function(port) {
     });
     port.onMessage.addListener(function(msg) {
         // Whatever you wish
-        console.log(msg);
+        if (msg.code === "LOADFETA"){
+             chrome.tabs.onUpdated.addListener(function(tabId, changeInfo) {
+            console.log("changing");
+            if (changeInfo.status === 'complete') {
+                console.log("changed");
+                port.postMessage("PageChanged");
+            }
+            
+        });
+        }
         
     });
 });

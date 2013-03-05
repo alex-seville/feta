@@ -35,10 +35,11 @@ OR
 
 ### Todo
  
+-improve reporting of regression, make regression report available
+-sidebar needs to be expandable
+-check mapping of record button at bottom
+-when 'run test' is clicked the button should change to disabled and update when test is completed 
+-loading a test should create an entry for it in the sidebar
 -capture more events, and different types  
--reload feta when inspected frame changes  
--improve panel ui  
--don't automatically save test script after recording  
--show regression result in panel  
 -maybe have test manifest to load multiple tests  
 

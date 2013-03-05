@@ -13,8 +13,8 @@ module.exports = function(grunt) {
     stringify: {
       feta:{
         options: {
-          header: "var fetaStr=\"",
-          footer: "\";\n//@ sourceURL=feta.js"
+          header: "var fetaStr=\"if (!window.feta){",
+          footer: "}\";\n//@ sourceURL=feta.js"
         },
         files:{
           "tmp/feta.min.str.js": "tmp/feta.min.js"
@@ -40,6 +40,7 @@ module.exports = function(grunt) {
           {src: ['extension/manifest.json'], dest: 'dist/manifest.json', filter: 'isFile'},
           {src: ['extension/Panel.html'], dest: 'dist/Panel.html', filter: 'isFile'},
           {src: ['extension/panel.js'], dest: 'dist/panel.js', filter: 'isFile'},
+          {src: ['components/jquery/jquery.js'], dest: 'dist/jquery.js', filter: 'isFile'},
           {expand: true,cwd: 'extension/css/', src: ['*'], dest: 'dist/css/'},
           {expand: true,cwd: 'extension/images/', src: ['*.png'], dest: 'dist/images/'}
           ]
