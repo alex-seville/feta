@@ -6,15 +6,19 @@ var testlist={};
 document.addEventListener('DOMContentLoaded', function() {
     var recording=false;
     document.getElementById("record").onclick = function(){
-        if (!recording){
-            recording=true;
-            respond(recording);
+        recording=clickRecord(recording);
+    };
+    window.clickRecord = function(mode){
+        if (!mode){
+            mode=true;
+            respond(mode);
             document.getElementById("record").innerText = "Stop Recording";
         }else{
-            recording=false;
-            respond(recording);
+            mode=false;
+            respond(mode);
             document.getElementById("record").innerText = "Start Recording";
         }
+        return mode;
     };
 
     document.getElementById("load").onclick = function(){
@@ -23,7 +27,11 @@ document.addEventListener('DOMContentLoaded', function() {
             //just one for now
             var file=fileList[0];
             var reader = new FileReader();
-            reader.onload = function(e) {  inject(e.target.result); };
+            reader.onload = function(e) {
+                updateTestList("local",file.name,e.target.result);
+                updatePanel();
+                //inject(e.target.result); 
+            };
             reader.readAsText(file);
         };
         

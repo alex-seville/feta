@@ -37,9 +37,7 @@ OR
  
 -improve reporting of regression, make regression report available
 -sidebar needs to be expandable
--check mapping of record button at bottom
 -when 'run test' is clicked the button should change to disabled and update when test is completed 
--loading a test should create an entry for it in the sidebar
 -capture more events, and different types  
 -maybe have test manifest to load multiple tests  
 

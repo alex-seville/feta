@@ -62,9 +62,10 @@ chrome.devtools.panels.create("Feta",
         _window = panelWindow;
 
 
-        var record=true;
+        var record=false;
         btn.onClicked.addListener(function(){
-            _window.respond(record);
+            _window.clickRecord(record);
+           // _window.respond(record);
             record=!record;
 
         });
