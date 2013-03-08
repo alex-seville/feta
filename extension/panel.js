@@ -1,13 +1,13 @@
-
+//memory object for storing currently loaded tests
 var testlist={};
 
-
-
 document.addEventListener('DOMContentLoaded', function() {
+    //initialize recording mode to false
     var recording=false;
     document.getElementById("record").onclick = function(){
         recording=clickRecord(recording);
     };
+    //change button text and delegate to devtools.respond
     window.clickRecord = function(mode){
         if (!mode){
             mode=true;
