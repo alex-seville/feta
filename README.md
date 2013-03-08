@@ -20,13 +20,14 @@ Enable 'developer mode' in Chrome extensions and click 'load unpacked extension'
 1. Open devtools and click on the Feta tab
 2. Click `Start Recording`
 3. Work through typical behaviours on the site
-4. Click `Stop Recording` to stop capturing events and create the output script (it will prompt you for a filename and then download automatically)
-5. Validations can be added to this file, or it can be incorporated into an automated test suite
+4. Click `Stop Recording` to stop capturing events and create the output script (it will prompt you for a filename)
+5. A new tab will be created for the test.  From there you can run or download the test.
+6. Validations can be added to this file, or it can be incorporated into an automated test suite
 
 
 ### Regression Testing
 
--Click `Load Script` to load and play a test script
+-Click `Load Script` to load a script into the sidebar, and then `Run Test` to run it.
 
 OR
 
@@ -36,9 +37,12 @@ OR
 ### Todo
  
 -improve reporting of regression, make regression report available
+-cleanup classes in CSS/HTML
 -sidebar needs to be expandable
 -screenshot to check for css regressions (just in phantom script probably)
--capture double click, scroll  
+-capture double click, scroll, change events (capturing change events will help to make keypress events more reliable)
 -maybe have test manifest to load multiple tests  
--reactor panel, devtools, background, and timeouts in test
+-reactor panel, devtools, and timeouts in test
+-make tests editable in the panel?
+-save tests to memory (maybe optionally local/session storage)
 

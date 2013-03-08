@@ -11,18 +11,16 @@ chrome.extension.onConnect.addListener(function(port) {
         delete ports[port.portId_];
     });
     port.onMessage.addListener(function(msg) {
-        // Whatever you wish
+        // When the extension is loaded
+        //we start listening for page updated
+        //events
         if (msg.code === "LOADFETA"){
              chrome.tabs.onUpdated.addListener(function(tabId, changeInfo) {
-            console.log("changing");
-            if (changeInfo.status === 'complete') {
-                console.log("changed");
-                port.postMessage("PageChanged");
-            }
-            
-        });
+                if (changeInfo.status === 'complete') {
+                    port.postMessage("PageChanged");
+                }
+            });
         }
-        
     });
 });
 // Function to send a message to all devtool.html views:

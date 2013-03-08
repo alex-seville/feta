@@ -1,3 +1,5 @@
+/* All these style names need to be cleaned up and changed from audit to feta */
+
 .audits-sidebar-tree-item .icon{
   content: url(../images/feta_single.png)
 }
@@ -24,8 +26,6 @@
 	right: 0;
 	top: 40px;
 }
-
-/* devtools.css */
 
 
 
