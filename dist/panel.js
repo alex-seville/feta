@@ -65,13 +65,19 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
      function runTest(){
-        
+        this.innerText = "Running...";
+        this.disabled = true;
         var fileData = document.getElementById("testCode").innerText;
 
       
         
         inject(fileData);
     }
+
+    window.reenableRun = function(){
+        document.getElementById("runTestBtn").innerText = "Run Test";
+        document.getElementById("runTestBtn").disabled = false;
+    };
 
     window.updatePanel = function(){
 
@@ -129,6 +135,7 @@ document.addEventListener('DOMContentLoaded', function() {
         dbtn.innerText = "Download";
         dbtn.onclick = downloadTest;
         var lbtn = document.createElement("button");
+        lbtn.id="runTestBtn";
         lbtn.innerText = "Run Test";
         lbtn.onclick =runTest;
         btnDiv.appendChild(lbtn);

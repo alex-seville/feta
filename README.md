@@ -37,7 +37,8 @@ OR
  
 -improve reporting of regression, make regression report available
 -sidebar needs to be expandable
--when 'run test' is clicked the button should change to disabled and update when test is completed 
--capture more events, and different types  
+-screenshot to check for css regressions (just in phantom script probably)
+-capture double click, scroll  
 -maybe have test manifest to load multiple tests  
+-reactor panel, devtools, background, and timeouts in test
 

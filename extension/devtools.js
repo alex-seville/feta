@@ -84,9 +84,23 @@ chrome.devtools.panels.create("Feta",
               function(result, isException) {
                 if (isException)
                   alert("Error loading test script.");
-               
+               checkIfPlaying();
              });
         };
+
+        function checkIfPlaying(){
+            chrome.devtools.inspectedWindow.eval(
+                "feta.isPlaying()",
+                function(result,isException){
+                    if(isException)
+                        alert("error playing script");
+                    if(!!result){
+                        setTimeout(checkIfPlaying,500);
+                    }else{
+                        _window.reenableRun();
+                    }
+                });
+        }
 
         _window.respond = function(msg) {
             if(msg){
