@@ -4,14 +4,7 @@
 
 //Set up the communcation between devtools & background.js
 var port = chrome.extension.connect({name:"devtools"});
-//when a message is received by devtools
-//we delegate it and do the appropriate action
-//in this case, we reload feta
-port.onMessage.addListener(function(msg) {
-    if (msg === "PageChanged"){
-      runInPage(window.fetaSource.loadStr(),doNothing,doNothing);
-    }
-});
+
 
 /* create feta panel in devtools */
 
@@ -27,7 +20,16 @@ chrome.devtools.panels.create("Feta",
         //get a reference to the window object from panel.html
         _window = panelWindow;
 
-        //Tell background.js to add onPageChaneg listener
+        //when a message is received by devtools
+        //we delegate it and do the appropriate action
+        //in this case, we reload feta
+        port.onMessage.addListener(function(msg) {
+            if (msg.code === "PageChanged"){
+              runInPage(window.fetaSource.loadStr(),doNothing,doNothing);
+            }
+        });
+
+        //Tell background.js to add onPageChange listener
         port.postMessage({code: "LOADFETA"});
 
         /* Panel.js Communication setup */

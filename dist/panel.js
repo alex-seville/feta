@@ -15,8 +15,8 @@ document.addEventListener('DOMContentLoaded', function() {
     var testPanelView = new testPanelControls({
         root:root,
         testPanel: $("#testPanel"),
-        codeArea: $("#testCode"),
-        runBtnSelector: $("#runTestBtn")
+        codeAreaSelector: "#testCode",
+        runBtnSelector: "#runTestBtn"
     });
 
     /* feta controls UI */
@@ -44,16 +44,17 @@ document.addEventListener('DOMContentLoaded', function() {
         //tell devtools we're done recording
         window.msgToDevtools("clickRecord",{data:false});
       })
-      .on(fetaView.exportEvents().loadTest,function(testInfo){
+      .on(fetaView.exportEvents().testLoaded,function(e,testInfo){
         //file has been loaded, update the sidebar ui and panel
         sidebarView.addTestToList(testInfo.name,"local");
         testPanelView.updatePanel(testInfo.name,testInfo.code);
+        sidebarView.selectTests();
       })
-      .on(testPanelView.exportEvents().runningTest,function(fileData){
+      .on(testPanelView.exportEvents().runningTest,function(e,fileData){
         //send test to devtools to run in page context
-        window.msgToDevtools("injectScript",{data:fileData});
+        window.msgToDevtools("injectScript",{data:fileData.data});
       })
-      .on(testPanelView.exportEvents().downloadableCreated,function(data){
+      .on(testPanelView.exportEvents().downloadableCreated,function(e,data){
         //when download url is created, pass it to devtools to make downloadable
         window.msgToDevtools("makeDownload",{
             url:data.url,
@@ -87,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (code === "saveWithURL"){
             //new test has been created, update the sidebar & panel ui
             sidebarView.addTestToList(data.filename,data.url);
-            testPanelView.updatePanel(data.filename,data.code);
+            testPanelView.updatePanel(data.filename,data.data);
             sidebarView.selectTests();
         }
     };

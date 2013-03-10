@@ -17,7 +17,7 @@ chrome.extension.onConnect.addListener(function(port) {
         if (msg.code === "LOADFETA"){
              chrome.tabs.onUpdated.addListener(function(tabId, changeInfo) {
                 if (changeInfo.status === 'complete') {
-                    port.postMessage("PageChanged");
+                    port.postMessage({code: "PageChanged"});
                 }
             });
         }

@@ -30,8 +30,10 @@ fetaControls.prototype.clickRecord = function(){
 
 fetaControls.prototype.loadTest = function(){
     //we use the HTML5 upload api to bring up the filepicker
-    //for loading scripts
-     this.loadUpload.click();
+    //for loading scripts,
+    //the devtools need to be docked or the upload dialog will
+    //appear outside the usuable window
+    this.loadUpload.click();
 };
 
 fetaControls.prototype.setupEvents = function(){
@@ -45,12 +47,12 @@ fetaControls.prototype.setupEvents = function(){
         var file=fileList[0];
 
         var reader = new FileReader();
-        reader.load(function(e) {
-            this.root.trigger(this.events.testLoaded,{
+        reader.onload = function(e) {
+            view.root.trigger(view.events.testLoaded,{
                 name: file.name,
                 code: e.target.result
             });
-        });
+        };
         reader.readAsText(file);
     });
     view.loadBtn.click(function(){

@@ -42,7 +42,8 @@ OR
 -screenshot to check for css regressions (just in phantom script probably)
 -capture double click, scroll, change events (capturing change events will help to make keypress events more reliable)
 -maybe have test manifest to load multiple tests  
--reactor panel, devtools, and timeouts in test
--make tests editable in the panel?
+-refactor timeouts in test
+-does sidebar work correctly when adding more than one test?
+-mock host objects in test (alert, confirm) and add pass throughs to feta for them, but also add option to not do that
 -save tests to memory (maybe optionally local/session storage)
 

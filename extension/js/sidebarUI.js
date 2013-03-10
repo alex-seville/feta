@@ -9,22 +9,23 @@ function sidebarUI(options){
         resetPanel: "sidebarUI.resetPanel"
     };
 
-    this.testArea.click(this.selectTests);
-    this.headerArea.click(this.selectHeader);
+    var view=this;
+    this.testArea.click(function(){view.selectTests();});
+    this.headerArea.click(function(){view.selectHeader();});
 }
-sidebarUI.prototype.selectTests=function(){
+sidebarUI.prototype.selectHeader=function(){
     this.testArea.find("li").removeClass("selected");
     this.headerArea.find("li").addClass("selected");
-    this.root.trigger(this.events.updatePanel);
-    this.headerPanel.hide();
-    this.testPanel.show();
+    this.root.trigger(this.events.resetPanel);
+    this.headerPanel.show();
+    this.testPanel.hide();
 };
-sidebarUI.prototype.selectHeader=function(){
+sidebarUI.prototype.selectTests=function(){
     this.testArea.find("li").addClass("selected");
     this.headerArea.find("li").removeClass("selected");
-    this.root.trigger(this.events.resetPanel);
-    this.testPanel.hide();
-    this.headerPanel.show();
+    this.root.trigger(this.events.updatePanel);
+    this.testPanel.show();
+    this.headerPanel.hide();
 };
 sidebarUI.prototype.getNewTestEntry = function(testName,testUrl){
     //create a new sidebar entry
@@ -58,57 +59,3 @@ sidebarUI.prototype.addTestToList = function(testName,testUrl){
     //add the new item
     this.testArea.append(newLi);
 };
-/*
-window.updateTestList = function(url,fname,code){
-        //TODO replace with proper view/templating
-        var arr = Array.prototype.slice.call(document.getElementById("sideBar").getElementsByClassName("selected"));
-        arr.forEach(function(el){
-            el.classList.remove("selected");
-        });
-        //switch the sidebar
-        var sb = document.getElementById("sidebarTests");
-        var newLi = document.createElement("li");
-        newLi.classList.add("sidebar-tree-item");
-        newLi.classList.add("audit-result-sidebar-tree-item");
-        newLi.classList.add("selected");
-        
-        var img = document.createElement("img");
-        img.classList.add("icon");
-        var statusDiv = document.createElement("div");
-        statusDiv.classList.add("status");
-        img.appendChild(statusDiv);
-        //set the titles
-        var titleDiv = document.createElement("div");
-        titleDiv.classList.add("titles");
-        titleDiv.classList.add("subtitle");
-        var titleSpan = document.createElement("span");
-        titleSpan.classList.add("title");
-        titleSpan.innerText = fname;
-        var subtitleSpan = document.createElement("span");
-        subtitleSpan.classList.add("subtitle");
-        subtitleSpan.innerText = url;
-        titleDiv.appendChild(titleSpan);
-        titleDiv.appendChild(subtitleSpan);
-        newLi.appendChild(img);
-        newLi.appendChild(titleDiv);
-        sb.appendChild(newLi);
-        //add the test code
-        var codeDiv = document.createElement("div");
-        codeDiv.id="testCode";
-        codeDiv.innerText = code;
-        //add the action buttons
-        var btnDiv = document.createElement("div");
-        btnDiv.classList.add("btnBar");
-        var dbtn = document.createElement("button");
-        dbtn.innerText = "Download";
-        dbtn.onclick = downloadTest;
-        var lbtn = document.createElement("button");
-        lbtn.id="runTestBtn";
-        lbtn.innerText = "Run Test";
-        lbtn.onclick =runTest;
-        btnDiv.appendChild(lbtn);
-        btnDiv.appendChild(dbtn);
-        document.getElementById("testPanel").appendChild(btnDiv);
-        document.getElementById("testPanel").appendChild(codeDiv);
-    };
-    */
