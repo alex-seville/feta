@@ -1,8 +1,14 @@
 function testPanelControls(options){
     this.root = options.root;
     this.testPanel = options.testPanel;
-    this.codeAreaSelector = options.codeAreaSelector;
-    this.runBtnSelector = options.runBtnSelector;
+    this.codeArea = options.codeArea;
+    this.runBtn = options.runBtn;
+    this.downloadBtn = options.downloadBtn;
+
+    var view=this;
+    view.runBtn.click(function(){ view.runTest(); });
+    view.downloadBtn.click(function(){ view.download($(this).data("filename"));});
+
     this.events = {
         downloadableCreated: "testPanelControls.downloadableCreated",
         runningTest: "testPanelControls.runningTest"
@@ -11,42 +17,24 @@ function testPanelControls(options){
 testPanelControls.prototype.exportEvents = function(){
     return this.events;
 };
-//todo-need to make event to get current test,
-//find the test code in memory
 testPanelControls.prototype.download = function(filename){
-    var data = $(this.codeAreaSelector).val();
+    var data = this.codeArea.val();
     window.URL = window.webkitURL || window.URL;
     var file = new Blob([data],{"type":"text\/plain"});
     var url = window.URL.createObjectURL(file);
     root.trigger(this.events.downloadableCreated,{name:filename+".js",url:url});
 };
 testPanelControls.prototype.runTest = function(){
-    $(this.runBtnSelector).text("Running...");
-    $(this.runBtnSelector).attr("disabled",true);
-    var fileData = $(this.codeAreaSelector).val();
+    this.runBtn.text("Running...");
+    this.runBtn.attr("disabled",true);
+    var fileData = this.codeArea.val();
     root.trigger(this.events.runningTest,{data:fileData});
 };
 testPanelControls.prototype.revertRunBtn = function(){
-    $(this.runBtnSelector).text("Run Test");
-    $(this.runBtnSelector).attr("disabled",false);
+    this.runBtn.text("Run Test");
+    this.runBtn.attr("disabled",false);
 };
 testPanelControls.prototype.updatePanel = function(filename,code){
-    var view=this;
-    var codeDiv = $("<textarea/>")
-        .attr("id","testCode")
-        .val(code);
-    //add the action buttons
-    var btnDiv = $("<div/>")
-        .addClass("btnBar");
-    var dbtn = $("<button/>")
-        .text("Download")
-        .click(function(){ view.download(filename);});
-    var lbtn = $("<button/>")
-        .attr("id","runTestBtn")
-        .text("Run Test")
-        .click(function(){ view.runTest(); });
-    btnDiv.append(lbtn);
-    btnDiv.append(dbtn);
-    view.testPanel.append(btnDiv);
-    view.testPanel.append(codeDiv);
+    this.downloadBtn.data("filename",filename);
+    this.codeArea.val(code);
 };

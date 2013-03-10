@@ -15,8 +15,9 @@ document.addEventListener('DOMContentLoaded', function() {
     var testPanelView = new testPanelControls({
         root:root,
         testPanel: $("#testPanel"),
-        codeAreaSelector: "#testCode",
-        runBtnSelector: "#runTestBtn"
+        codeArea: $(".testCode"),
+        runBtn: $(".runBtn"),
+        downloadBtn: $(".downloadBtn")
     });
 
     /* feta controls UI */
@@ -46,9 +47,18 @@ document.addEventListener('DOMContentLoaded', function() {
       })
       .on(fetaView.exportEvents().testLoaded,function(e,testInfo){
         //file has been loaded, update the sidebar ui and panel
+        testlist.push({
+            url: "local",
+            name:testInfo.name,
+            code:testInfo.code
+        });
         sidebarView.addTestToList(testInfo.name,"local");
-        testPanelView.updatePanel(testInfo.name,testInfo.code);
-        sidebarView.selectTests();
+        sidebarView.selectTests(testlist.length-1);
+      })
+      .on(sidebarView.exportEvents().updatePanel,function(e,data){
+        //update the panel with the correct data
+        var selectedItem = testlist[data.data];
+        testPanelView.updatePanel(selectedItem.name,selectedItem.code);
       })
       .on(testPanelView.exportEvents().runningTest,function(e,fileData){
         //send test to devtools to run in page context
@@ -87,9 +97,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         if (code === "saveWithURL"){
             //new test has been created, update the sidebar & panel ui
+            testlist.push({
+                url: data.url,
+                name:data.filename,
+                code:data.data
+            });
             sidebarView.addTestToList(data.filename,data.url);
-            testPanelView.updatePanel(data.filename,data.data);
-            sidebarView.selectTests();
+            sidebarView.selectTests(testlist.length-1);
         }
     };
 });

@@ -10,9 +10,16 @@ function sidebarUI(options){
     };
 
     var view=this;
-    this.testArea.click(function(){view.selectTests();});
+    this.testArea.click(function(e){
+        var current = e.target.tagName === "LI" ? $(e.target) : $(e.target).closest("li");
+        var indx = view.testArea.find("li").index(current);
+        view.selectTests(indx);
+    });
     this.headerArea.click(function(){view.selectHeader();});
 }
+sidebarUI.prototype.exportEvents = function(){
+    return this.events;
+};
 sidebarUI.prototype.selectHeader=function(){
     this.testArea.find("li").removeClass("selected");
     this.headerArea.find("li").addClass("selected");
@@ -20,10 +27,11 @@ sidebarUI.prototype.selectHeader=function(){
     this.headerPanel.show();
     this.testPanel.hide();
 };
-sidebarUI.prototype.selectTests=function(){
-    this.testArea.find("li").addClass("selected");
+sidebarUI.prototype.selectTests=function(indx){
+    this.testArea.find("li").removeClass("selected");
     this.headerArea.find("li").removeClass("selected");
-    this.root.trigger(this.events.updatePanel);
+    this.testArea.find("li").eq(indx).addClass("selected");
+    this.root.trigger(this.events.updatePanel,{data:indx});
     this.testPanel.show();
     this.headerPanel.hide();
 };
