@@ -1,149 +1,123 @@
 // Code based on off Chrome Devtools API Samples, Copyright (c) 2012 The Chromium Authors. All rights reserved.
 
+/* globals */
+
+//Set up the communcation between devtools & background.js
+var port = chrome.extension.connect({name:"devtools"});
+//when a message is received by devtools
+//we delegate it and do the appropriate action
+//in this case, we reload feta
+port.onMessage.addListener(function(msg) {
+    if (msg === "PageChanged"){
+      runInPage(window.fetaSource.loadStr(),doNothing,doNothing);
+    }
+});
+
+/* create feta panel in devtools */
 
 chrome.devtools.panels.create("Feta",
                               "images/feta.png",
                               "panel.html",
                               function(panel) {
-    //Set up the communcation between devtools & background.js
-    var data = [];
-    var port = chrome.extension.connect({name:"devtools"});
-
     //add record button to bottom of panel
     var btn = panel.createStatusBarButton("images/record.png", "Start Recording", false);
 
     //when panel is shown...
     panel.onShown.addListener(function tmp(panelWindow) {
+        //get a reference to the window object from panel.html
+        _window = panelWindow;
 
-        //when a message is received by devtools
-        //we delegate it and do the appropriate action
-        //in this case, we reload feta
-        port.onMessage.addListener(function(msg) {
-            if (msg === "PageChanged"){
-                chrome.devtools.inspectedWindow["eval"](
-                    loadStr,
-                    function(result, isException) {  }
-                );
-            }
-        });
-        //Then we send the message to initialize the listener
-        //which will call the above function on pageupdate
+        //Tell background.js to add onPageChaneg listener
         port.postMessage({code: "LOADFETA"});
 
-        //loading code for feta
-        //we check is jquery already exists on the page
-        //if not, we load in a copy
-        var loadStr = "if (typeof jQuery === 'undefined'){"+
-            "var _s=document.createElement('script');"+
-            "_s.type='text/javascript';"+
-            "_s.src='http://code.jquery.com/jquery-1.9.1.min.js';"+
-            "_s.onload=function(){ "+fetaStr +"};"+
-            "_s.onerror=function(){ alert('Error loading Feta');};"+
-            "document.body.appendChild(_s);"+
-            "}else{"+
-            fetaStr +"}";
+        /* Panel.js Communication setup */
+
+        //Messages are received from panel.js with window.msgToDevtools
+        //and Message are sent to panel.js with window.msgFromDevtools
+        _window.msgToDevtools = function(code,data){
+          if (code === "injectScript"){
+            //this is used by loadtest to inject a script onto the page
+            runInPage(data.data,checkIfPlaying);
+            return;
+          }
+          if (code === "clickRecord"){
+            //run the appropriate feta command
+            doFeta(data.data);
+            return;
+          }
+          if (code === "getCurrentURL"){
+            //get the current page url
+            getCurrentURL(function(url) {
+              data.url=url;
+              _window.msgFromDevtools(data.callbackName,data);
+            });
+            return;
+          }
+          if (code === "makeDownload"){
+            makeDownload(data.url,data.filename);
+            return;
+          }
+        };
+
+        //Initialize
 
         //we try loading feta as soon as the panel
         //is shown.
         //Unfortunately, we always get an exception back
         //this is a bug that needs to be investigated
-        chrome.devtools.inspectedWindow["eval"](
-           loadStr,
-            function(result, isException) {
-        });
+        runInPage(window.fetaSource.loadStr(),doNothing,doNothing);
 
         //we only have the onshown to run once
         panel.onShown.removeListener(tmp);
-        //get a reference to the window object from panel.html
-        _window = panelWindow;
 
-        //initialize recording to false
-        var record=false;
-        //when the button is clicked we
-        //enter recording mode and
-        //we run the clickRecord code to change
-        //the buttons and run feta.start
+
+        //UI setup
+
         btn.onClicked.addListener(function(){
-            _window.clickRecord(record);
-            record=!record;
+            _window.msgFromDevtools("clickRecord");
         });
-
-        //this is used by loadtest to inject a script onto the page
-        _window.inject = function(script){
-            chrome.devtools.inspectedWindow["eval"](
-              script,
-              function(result, isException) {
-                if (isException)
-                  alert("Error loading test script.");
-               checkIfPlaying();
-             });
-        };
 
         //we check if the test is still running
         //when it isn't running anymore we update
         //the run test button
         function checkIfPlaying(){
-            chrome.devtools.inspectedWindow["eval"](
-                "feta.isPlaying()",
-                function(result,isException){
-                    if(isException)
-                        alert("error playing script");
-                    if(!!result){
-                        setTimeout(checkIfPlaying,500);
-                    }else{
-                        _window.reenableRun();
-                    }
+          runInPage(window.fetaSource.isPlayingStr(),
+            function(result){
+                if(!!result){
+                    setTimeout(checkIfPlaying,500);
+                }else{
+                    _window.msgFromDevtools("revertRun");
                 }
-            );
+            },
+            function(err){
+              alert("error playing script");
+            });
         }
 
         //we inject feta.start or feta.stop depending on the
         //mode.  we update the panel button as well
-        _window.respond = function(msg) {
+        function doFeta(msg) {
             if(msg){
-                chrome.devtools.inspectedWindow["eval"](
-                    "feta.start();",
-                     function(result, isException) {
-                       if (isException)
-                         alert("error");
-                        else{
-                            btn.update("images/recording.png", "Stop Recording");
-                        }
-                     }
-                );
+              runInPage(window.fetaSource.startStr(),
+                function(){
+                  btn.update("images/recording.png", "Stop Recording");
+                });
             }else{
-                chrome.devtools.inspectedWindow["eval"](
-                    "feta.stop(null,true);",
-                     function(result, isException) {
-                       if (isException)
-                         alert("error");
-                       else{
-                           btn.update("images/record.png", "Start Recording");
-                         _window.saveFile(result);
-                       }
-                     }
-                );
+              runInPage(window.fetaSource.stopStr(),
+                function(result){
+                   btn.update("images/record.png", "Start Recording");
+                   _window.msgFromDevtools("saveFile",{data:result});
+                 });
             }
-        };
+        }
 
          //we capture the url of the currently loaded page
-         _window.saveNow = function(test,fname){
-            fname = fname === ""  ? "feta_output.js" : fname;
-            chrome.devtools.inspectedWindow["eval"](
-                "document.location.href",
-                 function(result, isException) {
-                     if (isException){
-                        alert("error");
-                     }else{
-                        _window.updateTestList(result,fname,test);
-                        _window.updatePanel();
-                    }
-                 }
-            );
-         };
+         function getCurrentURL(callback){
+            runInPage("document.location.href",callback);
+         }
 
          //create a link element and click it to download the file
-        _window.download = function(url,fname){
+        function makeDownload(url,fname){
             fname = fname === ""  ? "feta_output.js" : fname;
             //this code is from SO, but I'm missing the link right now
             var s = "var a = document.createElement('a');";
@@ -153,19 +127,28 @@ chrome.devtools.panels.create("Feta",
                 s+= "document.body.appendChild(a);";
                 s+= "a.click();"; //this is probably the key - simulatating a click on a download link
                 s+= "delete a;";// we don't need this anymore
-
-            chrome.devtools.inspectedWindow["eval"](
-             s,
-             function(result, isException) {
-               if (isException)
-                 alert("error");
-               else{
-
-               }
-            });
-        };
+            runInPage(s,doNothing);
+        }
     });
 });
+
+//when we don't care about the result
+var doNothing = function(){};
+
+//helper function to evaluate code in the inspected page context
+//with access to the JS and the DOM
+function runInPage(code,callback,errorCallback){
+  errorCallback = errorCallback || alert;
+  chrome.devtools.inspectedWindow["eval"](
+    code,
+    function(result, isException) {
+     if (isException)
+       errorCallback(result);
+     else{
+       callback(result);
+     }
+  });
+}
 
 
 

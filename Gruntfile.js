@@ -24,24 +24,30 @@ module.exports = function(grunt) {
     concat:{
       new_devtools: {
         options: {
-          separator: '\n;\n'
-          
+          separator: '\n',
+          banner: '<%= fetaSourceHeader %>\n',
+          footer: '\n<%= fetaSourceFooter %>'
         },
         files: {
-          'dist/devtools.js': ['extension/devtools.js', 'tmp/feta.min.str.js']
+          'dist/devtoolsjs/fetaSource.js': ['extension/devtoolsjs/fetaSource.js', 'tmp/feta.min.str.js']
         }
       }
     },
+    fetaSourceHeader: "(function(root){",
+    fetaSourceFooter: "})(window);",
     copy: {
       main: {
         files: [
           {src: ['extension/background.js'], dest: 'dist/background.js', filter: 'isFile'},
+          {src: ['extension/devtools.js'], dest: 'dist/devtools.js', filter: 'isFile'},
           {src: ['extension/devtools.html'], dest: 'dist/devtools.html', filter: 'isFile'},
           {src: ['extension/manifest.json'], dest: 'dist/manifest.json', filter: 'isFile'},
           {src: ['extension/Panel.html'], dest: 'dist/Panel.html', filter: 'isFile'},
           {src: ['extension/panel.js'], dest: 'dist/panel.js', filter: 'isFile'},
-          {src: ['components/jquery/jquery.js'], dest: 'dist/jquery.js', filter: 'isFile'},
+          {src: ['components/jquery/jquery.js'], dest: 'dist/js/jquery.js', filter: 'isFile'},
           {expand: true,cwd: 'extension/css/', src: ['*'], dest: 'dist/css/'},
+          {expand: true,cwd: 'extension/js/', src: ['*.js'], dest: 'dist/js/'},
+          {expand: true,cwd: 'extension/devtoolsjs/', src: ['*.js'], dest: 'dist/devtoolsjs/'},
           {expand: true,cwd: 'extension/images/', src: ['*.png'], dest: 'dist/images/'}
           ]
       }
@@ -66,6 +72,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
 
   // Default task(s).
-  grunt.registerTask('default', ['uglify','stringify','concat','copy','watch']);
+  grunt.registerTask('default', ['uglify','stringify','copy','concat','watch']);
 
 };

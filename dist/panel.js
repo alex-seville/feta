@@ -1,157 +1,95 @@
 //memory object for storing currently loaded tests
-var testlist={}; //not used yet, but should be
+var testlist=[]; //not used yet, but should be
+var root = $(document);
 
 document.addEventListener('DOMContentLoaded', function() {
     /* Sidebar UI */
-
-     //update sidebar ui to show test
-    document.getElementById("sidebarTests").onclick=function(evt){
-        document.getElementById("sidebarHeader").children[0].classList.remove("selected");
-        document.getElementById("sidebarTests").children[0].classList.add("selected");
-        window.updatePanel();
-    };
-    //update sidebar ui to hide tests
-    document.getElementById("sidebarHeader").onclick=function(evt){
-        document.getElementById("sidebarTests").children[0].classList.remove("selected");
-        document.getElementById("sidebarHeader").children[0].classList.add("selected");
-         window.resetPanel();
-    };
-    //find the script content, make a url from it, and pass that
-    //to devtools to download.
-    function downloadTest(){
-        var test = document.getElementById("sideBar").getElementsByClassName("selected")[0];
-        var spans = test.getElementsByTagName("span");
-        var fname = spans[0].innerText;
-
-        var fileData = document.getElementById("testCode").innerText;
-
-       window.URL = window.webkitURL || window.URL;
-       file = new Blob([fileData],{"type":"text\/plain"});
-       var url = window.URL.createObjectURL(file);
-        
-        download(url,fname+".js");
-    }
-    //change the button text
-    //and inject the test script into the page
-     function runTest(){
-        this.innerText = "Running...";
-        this.disabled = true;
-        var fileData = document.getElementById("testCode").innerText;
-        inject(fileData);
-    }
-    //change button ui
-    window.reenableRun = function(){
-        document.getElementById("runTestBtn").innerText = "Run Test";
-        document.getElementById("runTestBtn").disabled = false;
-    };
-    //show test ui
-    window.updatePanel = function(){
-
-        document.getElementById("admin").style.display="none";
-        document.getElementById("testPanel").style.display="block";
-    };
-    //show feta ui
-    window.resetPanel = function(){
-
-        document.getElementById("admin").style.display="block";
-        document.getElementById("testPanel").style.display="none";
-    };
+    var sidebarView = new sidebarUI({
+        testArea: $("#sidebarTests"),
+        headerArea: $("#sidebarHeader"),
+        testPanel: $("#testPanel"),
+        headerPanel: $("#admin"),
+        root: root
+    });
+    /* test controls */
+    var testPanelView = new testPanelControls({
+        root:root,
+        testPanel: $("#testPanel"),
+        codeArea: $("#testCode"),
+        runBtnSelector: $("#runTestBtn")
+    });
 
     /* feta controls UI */
+    var fetaView = new fetaControls({
+        recordBtn: $("#record"),
+        loadBtn: $("#load"),
+        loadUpload: $("#loadUpload"),
+        root: root
+    });
 
-    //initialize recording mode to false
-    var recording=false;
-    document.getElementById("record").onclick = function(){
-        recording=clickRecord(recording);
-    };
-    //change button text and delegate to devtools.respond
-    window.clickRecord = function(mode){
-        if (!mode){
-            mode=true;
-            respond(mode);
-            document.getElementById("record").innerText = "Stop Recording";
-        }else{
-            mode=false;
-            respond(mode);
-            document.getElementById("record").innerText = "Start Recording";
-        }
-        return mode;
-    };
-    //we use the HTML5 upload api to bring up the filepicker
-    //for loading scripts
-    document.getElementById("load").onclick = function(){
-        document.getElementById("loadUpload").onchange = function(){
-            var fileList = this.files;
-            //just one for now
-            var file=fileList[0];
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                updateTestList("local",file.name,e.target.result);
-                updatePanel();
-            };
-            reader.readAsText(file);
-        };
-        document.getElementById("loadUpload").click();
-    };
-    
-    //prompt for filename, then get the page url
-    //from devtools
-    window.saveFile = function(fileData){
-       var fname = prompt("Enter a name for your test script (excluding extension)","");
-       saveNow(fileData,fname||"");
-    };
-      
-    //update the test panel
-    window.updateTestList = function(url,fname,code){
-        //TODO replace with proper view/templating
-        var arr = Array.prototype.slice.call(document.getElementById("sideBar").getElementsByClassName("selected"));
-        arr.forEach(function(el){
-            el.classList.remove("selected");
+    function promptForTestname(){
+        var defaultStr = "test";
+        var msgStr = "Enter a name for your test script "+
+                "(excluding extension)";
+        return prompt(msgStr,"") || defaultStr;
+    }
+
+    //subscribe view events
+    root
+      .on(fetaView.exportEvents().startRecording,function(){
+        //tell devtools we are recording
+        window.msgToDevtools("clickRecord",{data:true});
+      })
+      .on(fetaView.exportEvents().stopRecording,function(){
+        //tell devtools we're done recording
+        window.msgToDevtools("clickRecord",{data:false});
+      })
+      .on(fetaView.exportEvents().loadTest,function(testInfo){
+        //file has been loaded, update the sidebar ui and panel
+        sidebarView.addTestToList(testInfo.name,"local");
+        testPanelView.updatePanel(testInfo.name,testInfo.code);
+      })
+      .on(testPanelView.exportEvents().runningTest,function(fileData){
+        //send test to devtools to run in page context
+        window.msgToDevtools("injectScript",{data:fileData});
+      })
+      .on(testPanelView.exportEvents().downloadableCreated,function(data){
+        //when download url is created, pass it to devtools to make downloadable
+        window.msgToDevtools("makeDownload",{
+            url:data.url,
+            filename:data.name
         });
-        //switch the sidebar
-        var sb = document.getElementById("sidebarTests");
-        var newLi = document.createElement("li");
-        newLi.classList.add("sidebar-tree-item");
-        newLi.classList.add("audit-result-sidebar-tree-item");
-        newLi.classList.add("selected");
-        var img = document.createElement("img");
-        img.classList.add("icon");
-        var statusDiv = document.createElement("div");
-        statusDiv.classList.add("status");
-        img.appendChild(statusDiv);
-        //set the titles
-        var titleDiv = document.createElement("div");
-        titleDiv.classList.add("titles");
-        titleDiv.classList.add("subtitle");
-        var titleSpan = document.createElement("span");
-        titleSpan.classList.add("title");
-        titleSpan.innerText = fname;
-        var subtitleSpan = document.createElement("span");
-        subtitleSpan.classList.add("subtitle");
-        subtitleSpan.innerText = url;
-        titleDiv.appendChild(titleSpan);
-        titleDiv.appendChild(subtitleSpan);
-        newLi.appendChild(img);
-        newLi.appendChild(titleDiv);
-        sb.appendChild(newLi);
-        //add the test code
-        var codeDiv = document.createElement("div");
-        codeDiv.id="testCode";
-        codeDiv.innerText = code;
-        //add the action buttons
-        var btnDiv = document.createElement("div");
-        btnDiv.classList.add("btnBar");
-        var dbtn = document.createElement("button");
-        dbtn.innerText = "Download";
-        dbtn.onclick = downloadTest;
-        var lbtn = document.createElement("button");
-        lbtn.id="runTestBtn";
-        lbtn.innerText = "Run Test";
-        lbtn.onclick =runTest;
-        btnDiv.appendChild(lbtn);
-        btnDiv.appendChild(dbtn);
-        document.getElementById("testPanel").appendChild(btnDiv);
-        document.getElementById("testPanel").appendChild(codeDiv);
+      });
+
+
+    /* Communication with devtools */
+    window.msgFromDevtools = function(code,data){
+        if (code === "clickRecord"){
+           //When footer bar record button is clicked
+           fetaView.clickRecord();
+           return;
+        }
+        if (code === "saveFile"){
+            //we prompt for a filename
+            //and then pass it right back
+            //to devtools.
+            window.msgToDevtools("getCurrentURL",{
+                data:data.data,
+                filename: promptForTestname(),
+                callbackName: "saveWithURL"
+            });
+            return;
+        }
+        if (code === "revertRun"){
+            //test is done running
+            testPanelView.revertRunBtn();
+        }
+        if (code === "saveWithURL"){
+            //new test has been created, update the sidebar & panel ui
+            sidebarView.addTestToList(data.filename,data.url);
+            testPanelView.updatePanel(data.filename,data.code);
+            sidebarView.selectTests();
+        }
     };
 });
 
