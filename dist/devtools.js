@@ -85,10 +85,10 @@ chrome.devtools.panels.create("Feta",
         function checkIfPlaying(){
           runInPage(window.fetaSource.isPlayingStr(),
             function(result){
-                if(!!result){
+                if(!result){
                     setTimeout(checkIfPlaying,500);
                 }else{
-                    _window.msgFromDevtools("revertRun");
+                    _window.msgFromDevtools("revertRun",{data: result});
                 }
             },
             function(err){

@@ -8,7 +8,7 @@ fetaSrc.prototype.stopStr = function(){
     return "feta.stop(null,true);";
 };
 fetaSrc.prototype.isPlayingStr = function(){
-    return "feta.isPlaying();";
+    return "feta.isPlaying() ? null : feta.lastRegression();";
 };
 fetaSrc.prototype.loadStr = function(){
     //loading code for feta, we check is jquery already exists on the page

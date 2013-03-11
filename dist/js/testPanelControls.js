@@ -38,3 +38,10 @@ testPanelControls.prototype.updatePanel = function(filename,code){
     this.downloadBtn.data("filename",filename);
     this.codeArea.val(code);
 };
+testPanelControls.prototype.addResultDetail = function(regressionData){
+    if (regressionData.length > 0){
+        this.testPanel.find(".lastRun").text("Regression detected at "+ new Date().toISOString());
+    }else{
+        this.testPanel.find(".lastRun").text("Passed at "+ new Date().toISOString());
+    }
+};

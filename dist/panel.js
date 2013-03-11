@@ -101,6 +101,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (code === "revertRun"){
             //test is done running
             testPanelView.revertRunBtn();
+            testPanelView.addResultDetail(data.data);
+            //should save the most recent result with the db, I think.
         }
         if (code === "saveWithURL"){
             //new test has been created, update the sidebar & panel ui
