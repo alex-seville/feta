@@ -43,7 +43,5 @@ OR
 -capture double click, scroll, change events (capturing change events will help to make keypress events more reliable)
 -maybe have test manifest to load multiple tests  
 -refactor timeouts in test
--does sidebar work correctly when adding more than one test?
 -mock host objects in test (alert, confirm) and add pass throughs to feta for them, but also add option to not do that
--save tests to memory (maybe optionally local/session storage)
 

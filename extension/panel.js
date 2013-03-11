@@ -1,6 +1,5 @@
-//memory object for storing currently loaded tests
-var testlist=[]; //not used yet, but should be
 var root = $(document);
+var tests = new db('feta_devtool_testlist');
 
 document.addEventListener('DOMContentLoaded', function() {
     /* Sidebar UI */
@@ -35,6 +34,14 @@ document.addEventListener('DOMContentLoaded', function() {
         return prompt(msgStr,"") || defaultStr;
     }
 
+    //take all the tests we have saved and
+    //load them into the sidebar
+    for(var showTests=0;showTests<tests.length();showTests++){
+        var selectedItem = tests.get(showTests);
+        sidebarView.addTestToList(selectedItem.name,selectedItem.url);
+    }
+    sidebarView.selectHeader();
+
     //subscribe view events
     root
       .on(fetaView.exportEvents().startRecording,function(){
@@ -47,17 +54,17 @@ document.addEventListener('DOMContentLoaded', function() {
       })
       .on(fetaView.exportEvents().testLoaded,function(e,testInfo){
         //file has been loaded, update the sidebar ui and panel
-        testlist.push({
+        var indx = tests.add({
             url: "local",
             name:testInfo.name,
             code:testInfo.code
         });
         sidebarView.addTestToList(testInfo.name,"local");
-        sidebarView.selectTests(testlist.length-1);
+        sidebarView.selectTests(indx);
       })
       .on(sidebarView.exportEvents().updatePanel,function(e,data){
         //update the panel with the correct data
-        var selectedItem = testlist[data.data];
+        var selectedItem = tests.get(data.data);
         testPanelView.updatePanel(selectedItem.name,selectedItem.code);
       })
       .on(testPanelView.exportEvents().runningTest,function(e,fileData){
@@ -97,13 +104,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         if (code === "saveWithURL"){
             //new test has been created, update the sidebar & panel ui
-            testlist.push({
+            var indx=tests.add({
                 url: data.url,
                 name:data.filename,
                 code:data.data
             });
             sidebarView.addTestToList(data.filename,data.url);
-            sidebarView.selectTests(testlist.length-1);
+            sidebarView.selectTests(indx);
         }
     };
 });
