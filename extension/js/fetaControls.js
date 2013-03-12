@@ -21,10 +21,12 @@ fetaControls.prototype.clickRecord = function(){
         this.isRecording=true;
         this.root.trigger(this.events.startRecording,true);
         this.recordBtn.text("Stop Recording");
+        this.loadBtn.attr("disabled",true);
     }else{
         this.isRecording=false;
         this.root.trigger(this.events.stopRecording,false);
         this.recordBtn.text("Start Recording");
+        this.loadBtn.attr("disabled",false);
     }
 };
 

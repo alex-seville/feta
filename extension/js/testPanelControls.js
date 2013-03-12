@@ -40,8 +40,19 @@ testPanelControls.prototype.updatePanel = function(filename,code){
 };
 testPanelControls.prototype.addResultDetail = function(regressionData){
     if (regressionData.length > 0){
-        this.testPanel.find(".lastRun").text("Regression detected at "+ new Date().toISOString());
+        this.testPanel
+            .find(".lastRun")
+            .text("Regression detected at "+ new Date().toISOString())
+            .on("click",this.showRegression(regressionData));
     }else{
-        this.testPanel.find(".lastRun").text("Passed at "+ new Date().toISOString());
+        this.testPanel
+            .find(".lastRun")
+            .text("Passed at "+ new Date().toISOString())
+            .off("click");
     }
+};
+testPanelControls.prototype.showRegression = function(data){
+    return function(){
+        alert(data);
+    };
 };
