@@ -27,6 +27,8 @@ testPanelControls.prototype.download = function(filename){
 testPanelControls.prototype.runTest = function(){
     this.runBtn.text("Running...");
     this.runBtn.attr("disabled",true);
+    this.testPanel.find(".lastRun").text("");
+    this.testPanel.find(".regressions").hide();
     var fileData = this.codeArea.val();
     root.trigger(this.events.runningTest,{data:fileData});
 };
@@ -40,8 +42,23 @@ testPanelControls.prototype.updatePanel = function(filename,code){
 };
 testPanelControls.prototype.addResultDetail = function(regressionData){
     if (regressionData.length > 0){
-        this.testPanel.find(".lastRun").text("Regression detected at "+ new Date().toISOString());
+        this.testPanel
+            .find(".lastRun")
+            .text("Regression detected at "+ new Date().toISOString());
+        var regs = this.testPanel.find(".regressions");
+        var ul = regs.find("ul");
+        for(var i=0;i<regressionData;i++){
+            ul.append($("<li/>").text(regressionData[i]));
+        }
+        regs.show();
     }else{
-        this.testPanel.find(".lastRun").text("Passed at "+ new Date().toISOString());
+        this.testPanel
+            .find(".lastRun")
+            .text("Passed at "+ new Date().toISOString());
     }
+};
+testPanelControls.prototype.showRegression = function(data){
+    return function(){
+        alert(data);
+    };
 };
