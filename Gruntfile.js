@@ -60,6 +60,9 @@ module.exports = function(grunt) {
           nospawn: true
         }
       }
+    },
+    qunit: {
+      all: ['test/**/*.html']
     }
   });
 
@@ -70,8 +73,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-qunit');
 
   // Default task(s).
   grunt.registerTask('default', ['uglify','stringify','copy','concat','watch']);
-
 };

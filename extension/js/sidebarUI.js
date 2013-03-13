@@ -4,6 +4,8 @@ function sidebarUI(options){
     this.testPanel=options.testPanel;
     this.headerPanel = options.headerPanel;
     this.root = options.root;
+    this.splitDivider = options.splitDivider;
+
     this.events={
         updatePanel: "sidebarUI.updatePanel",
         resetPanel: "sidebarUI.resetPanel"
@@ -16,6 +18,14 @@ function sidebarUI(options){
         view.selectTests(current.data("id"),indx);
     });
     this.headerArea.click(function(){view.selectHeader();});
+    this.splitDivider.mousedown(function(e){
+        view.splitDivider.mousemove(function(){
+            this.css("left",this.offset().left);
+            view.root.find("#sideBar").width(this.offset().left);
+            view.root.find(".split-view-contents").css("left",this.offset().left);
+        });
+        e.preventDefault();
+    });
 }
 sidebarUI.prototype.exportEvents = function(){
     return this.events;

@@ -36,11 +36,12 @@ OR
 
 ### Todo
  
--cleanup classes in CSS/HTML
--sidebar needs to be expandable
--screenshot to check for css regressions (just in phantom script probably)
--capture double click, scroll, change events (capturing change events will help to make keypress events more reliable)
--maybe have test manifest to load multiple tests  
--refactor timeouts in test
--mock host objects in test (alert, confirm) and add pass throughs to feta for them, but also add option to not do that
+-cleanup classes in CSS/HTML  
+-sidebar needs to be expandable  
+-screenshot to check for css regressions (just in phantom script probably)  
+-capture double click, scroll, change events (capturing change events will help to make keypress events more reliable)  
+-maybe have test manifest to load multiple tests    
+-refactor timeouts in test  
+-mock host objects in test (alert, confirm) and add pass throughs to feta for them, but also add option to not do that  
+-more qunit tests for lib/feta.js
 

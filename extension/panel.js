@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
         headerArea: $("#sidebarHeader"),
         testPanel: $("#testPanel"),
         headerPanel: $("#admin"),
+        splitDivider: $(".split-view-resizer"),
         root: root
     });
     /* test controls */
