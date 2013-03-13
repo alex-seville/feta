@@ -36,7 +36,6 @@ OR
 
 ### Todo
  
--improve reporting of regression, make regression report available
 -cleanup classes in CSS/HTML
 -sidebar needs to be expandable
 -screenshot to check for css regressions (just in phantom script probably)

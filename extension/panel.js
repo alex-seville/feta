@@ -16,7 +16,9 @@ document.addEventListener('DOMContentLoaded', function() {
         testPanel: $("#testPanel"),
         codeArea: $(".testCode"),
         runBtn: $(".runBtn"),
-        downloadBtn: $(".downloadBtn")
+        testIdField: $("#testId"),
+        downloadBtn: $(".downloadBtn"),
+        deleteBtn: $(".deleteBtn")
     });
 
     /* feta controls UI */
@@ -36,9 +38,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     //take all the tests we have saved and
     //load them into the sidebar
-    for(var showTests=0;showTests<tests.length();showTests++){
-        var selectedItem = tests.get(showTests);
-        sidebarView.addTestToList(selectedItem.name,selectedItem.url);
+    var savedTests=tests.getAll();
+    for(var showTests=0;showTests<savedTests.length;showTests++){
+        var selectedItem = savedTests[showTests];
+        sidebarView.addTestToList(
+            selectedItem.name,
+            selectedItem.url,
+            selectedItem.id
+        );
     }
     sidebarView.selectHeader();
 
@@ -54,18 +61,18 @@ document.addEventListener('DOMContentLoaded', function() {
       })
       .on(fetaView.exportEvents().testLoaded,function(e,testInfo){
         //file has been loaded, update the sidebar ui and panel
-        var indx = tests.add({
+        var id = tests.add({
             url: "local",
             name:testInfo.name,
             code:testInfo.code
         });
-        sidebarView.addTestToList(testInfo.name,"local");
-        sidebarView.selectTests(indx);
+        sidebarView.addTestToList(testInfo.name,"local",id);
+        sidebarView.selectTests(id);
       })
       .on(sidebarView.exportEvents().updatePanel,function(e,data){
         //update the panel with the correct data
         var selectedItem = tests.get(data.data);
-        testPanelView.updatePanel(selectedItem.name,selectedItem.code);
+        testPanelView.updatePanel(selectedItem);
       })
       .on(testPanelView.exportEvents().runningTest,function(e,fileData){
         //send test to devtools to run in page context
@@ -77,6 +84,14 @@ document.addEventListener('DOMContentLoaded', function() {
             url:data.url,
             filename:data.name
         });
+      })
+      .on(testPanelView.exportEvents().updateLastResult,function(e,data){
+        tests.update(data.id,"lastResult",data.data);
+        tests.update(data.id,"lastResultDate",data.date);
+      })
+      .on(testPanelView.exportEvents().deleteTest,function(e,data){
+        tests["delete"](data.id);
+        sidebarView.removeCurrent();
       });
 
 
@@ -106,13 +121,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         if (code === "saveWithURL"){
             //new test has been created, update the sidebar & panel ui
-            var indx=tests.add({
+            var id=tests.add({
                 url: data.url,
                 name:data.filename,
                 code:data.data
             });
-            sidebarView.addTestToList(data.filename,data.url);
-            sidebarView.selectTests(indx);
+            sidebarView.addTestToList(data.filename,data.url,id);
+            sidebarView.selectTests(id);
         }
     };
 });
