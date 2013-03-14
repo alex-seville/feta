@@ -103,6 +103,6 @@
     top: 0;
     bottom: 0;
     width: 5px;
-    z-index: 500;
+    z-index: 1500;
     cursor: ew-resize;
 }

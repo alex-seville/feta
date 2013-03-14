@@ -19,13 +19,27 @@ function sidebarUI(options){
     });
     this.headerArea.click(function(){view.selectHeader();});
     this.splitDivider.mousedown(function(e){
-        view.splitDivider.mousemove(function(){
-            this.css("left",this.offset().left);
-            view.root.find("#sideBar").width(this.offset().left);
-            view.root.find(".split-view-contents").css("left",this.offset().left);
-        });
-        e.preventDefault();
+        view.root.find(".panel").on("mousemove",m_move);
+        view.root.find(".panel").on("mouseup",m_up);
+        //e.preventDefault();
     });
+    //could be improved
+    var minMove = 75;
+    var maxMove = $(".panel").width()-308;
+
+    var m_move = function(e){
+        var newOffset = e.pageX;
+        if (e.pageX > minMove && e.pageX < maxMove){
+            console.log("newOffset:"+newOffset);
+            view.splitDivider.css("left",newOffset);
+            view.root.find("#sideBar").width(newOffset+3);
+            view.root.find("#sidePanel").css("left",newOffset+3);
+        }
+    };
+    var m_up = function(){
+        view.root.find(".panel").off("mousemove",m_move);
+        view.root.find(".panel").off("mouseup",m_up);
+    };
 }
 sidebarUI.prototype.exportEvents = function(){
     return this.events;
