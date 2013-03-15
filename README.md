@@ -43,4 +43,5 @@ OR
 -refactor timeouts in test  
 -mock host objects in test (alert, confirm) and add pass throughs to feta for them, but also add option to not do that  
 -more qunit tests for lib/feta.js
+-bug when selecting a second test in sidebar, possibly related to id
 
