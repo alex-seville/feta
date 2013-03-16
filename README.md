@@ -1,4 +1,4 @@
-# feta.js
+# Feta.js
 ========
 
 **Automated regression testing**
@@ -16,7 +16,7 @@ Enable 'developer mode' in Chrome extensions and click 'load unpacked extension'
 
 ## Usage
 
-**Check out [this walkthrough video]() (no sound yet) to see Feta in action**  
+**Walkthrough video coming soon**  
 
 ## Automated Test Creation
 
