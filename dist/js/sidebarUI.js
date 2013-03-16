@@ -52,7 +52,7 @@ sidebarUI.prototype.selectHeader=function(){
     this.testPanel.hide();
 };
 sidebarUI.prototype.selectTests=function(id,indx){
-    indx = indx || this.testArea.find("li").length-1;
+    indx = indx === -1 ? this.testArea.find("li").length-1 : indx;
     this.testArea.find("li").removeClass("selected");
     this.headerArea.find("li").removeClass("selected");
     this.testArea.find("li").eq(indx).addClass("selected");
@@ -85,7 +85,7 @@ sidebarUI.prototype.getNewTestEntry = function(testName,testUrl,id){
     newLi.data("id",id);
     return newLi;
 };
-sidebarUI.prototype.addTestToList = function(testName,testUrl,id){  
+sidebarUI.prototype.addTestToList = function(testName,testUrl,id){
     var newLi=this.getNewTestEntry(testName,testUrl,id);
     //clear the current selections
     this.testArea.find("li").removeClass("selected");

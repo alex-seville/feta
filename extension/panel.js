@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
             code:testInfo.code
         });
         sidebarView.addTestToList(testInfo.name,"local",id);
-        sidebarView.selectTests(id);
+        sidebarView.selectTests(id,-1);
       })
       .on(sidebarView.exportEvents().updatePanel,function(e,data){
         //update the panel with the correct data
@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 code:data.data
             });
             sidebarView.addTestToList(data.filename,data.url,id);
-            sidebarView.selectTests(id);
+            sidebarView.selectTests(id,-1);
         }
     };
 });
