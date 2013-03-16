@@ -1,11 +1,12 @@
 # feta.js
 ========
 
-Automated regression testing
+**Automated regression testing**
 
-## Requirements
+Feta runs as a Chrome extension, and as a standalone library.  
+Use Feta to record functional tests of sites, and detect regressions caused by refactoring or maintenance.
 
-Feta uses any existing jQuery instance it finds, or loads it's own.  This shouldn't conflict with your code, but it may.
+Use Feta with PhantomJS to detect regression automatically in your continuous integration pipeline.
 
 
 ## Install
@@ -15,7 +16,9 @@ Enable 'developer mode' in Chrome extensions and click 'load unpacked extension'
 
 ## Usage
 
-### Automated Test Creation
+**Check out [this walkthrough video]() (no sound yet) to see Feta in action**  
+
+## Automated Test Creation
 
 1. Open devtools and click on the Feta tab
 2. Click `Start Recording`
@@ -25,7 +28,7 @@ Enable 'developer mode' in Chrome extensions and click 'load unpacked extension'
 6. Validations can be added to this file, or it can be incorporated into an automated test suite
 
 
-### Regression Testing
+## Regression Testing
 
 -Click `Load Script` to load a script into the sidebar, and then `Run Test` to run it.
 
@@ -34,7 +37,7 @@ OR
 -Run `phantomjs feta/lib/phantom.js <url>`
 
 
-### Todo
+## Todo
  
 -cleanup classes in CSS/HTML  
 -screenshot to check for css regressions (just in phantom script probably)  
