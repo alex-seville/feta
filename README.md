@@ -1,4 +1,4 @@
-# feta.js
+# Feta.js
 ========
 
 **Automated regression testing**
