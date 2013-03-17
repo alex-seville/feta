@@ -50,6 +50,7 @@ OR
 
 ## Todo
  
+-multi-page recording
 -cleanup classes in CSS/HTML  
 -screenshot to check for css regressions (just in phantom script probably)  
 -capture double click, scroll, change events (capturing change events will help to make keypress events more reliable)  
