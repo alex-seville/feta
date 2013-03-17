@@ -37,6 +37,17 @@ OR
 -Run `phantomjs feta/lib/phantom.js <url>`
 
 
+## FAQ
+
+**Q.** Can I use the extension to run multi page tests (i.e. refreshing of pages)
+**A.** Not at this time.  Feta can only be used for single page apps for the moment.
+
+**Q.** Does it work on windows? mac?
+**A.** It has been tested on both windows and mac (but not linux)
+
+**Q.** I got an error alert, what does it mean?
+**A.** Please report all errors to the issue tracker.  Since Feta is in beta release I appreciate any feedback.
+
 ## Todo
  
 -cleanup classes in CSS/HTML  

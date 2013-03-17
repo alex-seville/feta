@@ -5,6 +5,7 @@
 //Set up the communcation between devtools & background.js
 var port = chrome.extension.connect({name:"devtools"});
 
+var errorMessage = "Feta is in beta release.  Please report this error.\n";
 
 /* create feta panel in devtools */
 
@@ -92,7 +93,7 @@ chrome.devtools.panels.create("Feta",
                 }
             },
             function(err){
-              alert("error playing script");
+              alert(errorMessage+"error playing script, line 96.");
             });
         }
 
@@ -140,12 +141,12 @@ var doNothing = function(){};
 //helper function to evaluate code in the inspected page context
 //with access to the JS and the DOM
 function runInPage(code,callback,errorCallback){
-  errorCallback = errorCallback || alert;
+  errorCallback = errorCallback || function(err){ alert(errorMessage+err); };
   chrome.devtools.inspectedWindow["eval"](
     code,
     function(result, isException) {
      if (isException)
-       errorCallback(result);
+       errorCallback(isException);
      else{
        callback(result);
      }
