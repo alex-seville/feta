@@ -2,7 +2,7 @@ function fetaSrc(){
     this.source = fetaStr;
 }
 fetaSrc.prototype.startStr = function(arr){
-    arr = arr || "";
+    arr = typeof arr !== 'undefined' ? JSON.stringify(arr) : "";
     return "feta.start("+arr+");";
 };
 fetaSrc.prototype.stopStr = function(){

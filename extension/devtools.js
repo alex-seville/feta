@@ -26,7 +26,8 @@ chrome.devtools.panels.create("Feta",
         //in this case, we reload feta
         port.onMessage.addListener(function(msg) {
             if (msg.code === "PageChanged"){
-              checkStatus=null;
+              console.log("page changed");
+              clearInterval(checkStatus);
               runInPage(window.fetaSource.loadStr(),function(){
                 //if we're already recording, we want to
                 //restart feta
@@ -40,9 +41,10 @@ chrome.devtools.panels.create("Feta",
                           function(result){
                             console.log("updating array:",result);
                             currFetaArray = result;
+                          },function(){
+                            alert("Checking array error");
                           });
                         },1000);
-                      }
                       },function(){
                         alert(errorMessage+"Error re-starting feta on the page.");
                       });
@@ -141,8 +143,10 @@ chrome.devtools.panels.create("Feta",
                     console.log("checking page");
                     runInPage(window.fetaSource.getCurrentStr(),
                       function(result){
-                        console.log("updating array:",result);
+                        console.log("updating array");
                           currFetaArray = result;
+                      },function(){
+                        alert("set interval error");
                       });
                   },1000);
 
@@ -151,7 +155,7 @@ chrome.devtools.panels.create("Feta",
               runInPage(window.fetaSource.stopStr(),
                 function(result){
                   recording=false;
-                  checkStatus=null;
+                  clearInterval(checkStatus);
                    btn.update("images/record.png", "Start Recording");
                    _window.msgFromDevtools("saveFile",{data:result});
                  });
