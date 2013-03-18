@@ -26,13 +26,24 @@ chrome.devtools.panels.create("Feta",
         //in this case, we reload feta
         port.onMessage.addListener(function(msg) {
             if (msg.code === "PageChanged"){
+              checkStatus=null;
               runInPage(window.fetaSource.loadStr(),function(){
                 //if we're already recording, we want to
                 //restart feta
                 
                 if (recording){
                   runInPage(window.fetaSource.startStr(currFetaArray),
-                      doNothing,function(){
+                      function(){
+                        checkStatus=setInterval(function(){
+                          console.log("checking page");
+                          runInPage(window.fetaSource.getCurrentStr(),
+                          function(result){
+                            console.log("updating array:",result);
+                            currFetaArray = result;
+                          });
+                        },1000);
+                      }
+                      },function(){
                         alert(errorMessage+"Error re-starting feta on the page.");
                       });
                 }
