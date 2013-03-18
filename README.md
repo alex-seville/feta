@@ -57,3 +57,9 @@ OR
 -mock host objects in test (alert, confirm) and add pass throughs to feta for them, but also add option to not do that  
 -more qunit tests for lib/feta.js
 
+-multi page:
+-timeout to capture event array as it's processing
+-if page change, when page load reinject feta, re-start feta with existing event array
+
+
+

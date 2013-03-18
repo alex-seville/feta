@@ -1,11 +1,15 @@
 function fetaSrc(){
     this.source = fetaStr;
 }
-fetaSrc.prototype.startStr = function(){
-    return "feta.start();";
+fetaSrc.prototype.startStr = function(arr){
+    arr = arr || "";
+    return "feta.start("+arr+");";
 };
 fetaSrc.prototype.stopStr = function(){
     return "feta.stop(null,true);";
+};
+fetaSrc.prototype.getCurrentStr = function(){
+    return "feta.getCurrentStack();";
 };
 fetaSrc.prototype.isPlayingStr = function(){
     return "feta.isPlaying() ? null : feta.lastRegression();";
