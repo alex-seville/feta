@@ -20,41 +20,67 @@ chrome.devtools.panels.create("Feta",
     panel.onShown.addListener(function tmp(panelWindow) {
         //get a reference to the window object from panel.html
         _window = panelWindow;
+        var firstload=true;
+        var currUrl="";
+        var newUrl="";
+
+        var removeHash=function(url){
+          if (url.indexOf("#") > -1){
+            return url.slice(0,url.indexOf("#")-1);
+          }
+          return url;
+        };
 
         //when a message is received by devtools
         //we delegate it and do the appropriate action
         //in this case, we reload feta
         port.onMessage.addListener(function(msg) {
             if (msg.code === "PageChanged"){
-              console.log("page changed");
-              clearInterval(checkStatus);
-              runInPage(window.fetaSource.loadStr(),function(){
-                //if we're already recording, we want to
-                //restart feta
-                
-                if (recording){
-                  runInPage(window.fetaSource.startStr(currFetaArray),
-                      function(){
-                        checkStatus=setInterval(function(){
-                          console.log("checking page");
-                          runInPage(window.fetaSource.getCurrentStr(),
-                          function(result){
-                            console.log("updating array:",result);
-                            currFetaArray = result;
-                          },function(){
-                            alert("Checking array error");
-                          });
-                        },1000);
-                      },function(){
-                        alert(errorMessage+"Error re-starting feta on the page.");
-                      });
+              
+              //clearInterval(checkStatus);
+              if (!firstload && currUrl !== newUrl){
+                console.log(currUrl+"!=="+newUrl+" so reinjecting feta et al.");
+                runInPage(window.fetaSource.loadStr(),function(){
+                  //if we're already recording, we want to
+                  //restart feta
+                  
+                  if (recording){
+                    runInPage(window.fetaSource.startStr(currFetaArray),
+                        function(){
+                          checkStatus=setInterval(function(){
+                            console.log("checking page");
+                            runInPage(window.fetaSource.getCurrentStr(),
+                            function(result){
+                              console.log("updating array:",result);
+                              currFetaArray = result;
+                            },function(){
+                              alert("Checking array error");
+                            });
+                          },1000);
+                        },function(){
+                          alert(errorMessage+"Error re-starting feta on the page.");
+                        });
+                  }
+                  
+                },function(){
+                  alert(errorMessage+"Error re-loading feta on the page.");
+                });
+              }else{
+                firstload=false;
+              }
+              currUrl=newUrl;
+            }else if (msg.code === "PageLoading"){
+              console.log("loading "+msg.data);
+              console.log("firstload? "+firstload);
+               
+                if (!firstload && currUrl !== newUrl){
+                  console.log("clearing interval");
+                  clearInterval(checkStatus);
                 }
-                
-              },function(){
-                alert(errorMessage+"Error re-loading feta on the page.");
-              });
+               newUrl=removeHash(msg.data);
             }
         });
+
 
         //Tell background.js to add onPageChange listener
         port.postMessage({code: "LOADFETA"});
@@ -133,6 +159,7 @@ chrome.devtools.panels.create("Feta",
         //we inject feta.start or feta.stop depending on the
         //mode.  we update the panel button as well
         function doFeta(msg) {
+          firstload=false;
             if(msg){
               runInPage(window.fetaSource.startStr(),
                 function(){

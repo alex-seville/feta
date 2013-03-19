@@ -60,7 +60,7 @@ OR
 -multi page:
 -timeout to capture event array as it's processing
 -if page change, when page load reinject feta, re-start feta with existing event array
--need to distinguish between real page load events
+-need to distinguish between real page load events, check hashing function, interval not clearing?
 
 
 
