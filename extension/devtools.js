@@ -45,8 +45,10 @@ chrome.devtools.panels.create("Feta",
                   //restart feta
                   
                   if (recording){
+                    alert(currFetaArray);
                     runInPage(window.fetaSource.startStr(currFetaArray),
                         function(){
+                          console.log("cs:",checkStatus);
                           checkStatus=setInterval(function(){
                             console.log("checking page");
                             runInPage(window.fetaSource.getCurrentStr(),
@@ -57,6 +59,7 @@ chrome.devtools.panels.create("Feta",
                               alert("Checking array error");
                             });
                           },1000);
+                          console.log("cs:",checkStatus);
                         },function(){
                           alert(errorMessage+"Error re-starting feta on the page.");
                         });
@@ -72,12 +75,14 @@ chrome.devtools.panels.create("Feta",
             }else if (msg.code === "PageLoading"){
               console.log("loading "+msg.data);
               console.log("firstload? "+firstload);
-               
-                if (!firstload && currUrl !== newUrl){
+                newUrl=removeHash(msg.data);
+                if (recording && currUrl !== newUrl){
                   console.log("clearing interval");
+                  console.log("cs:",checkStatus);
                   clearInterval(checkStatus);
+                  console.log("cs:",checkStatus);
                 }
-               newUrl=removeHash(msg.data);
+               
             }
         });
 
@@ -165,7 +170,7 @@ chrome.devtools.panels.create("Feta",
                 function(){
                   recording=true;
                   btn.update("images/recording.png", "Stop Recording");
-                  
+                  console.log("cs:",checkStatus);
                   checkStatus=setInterval(function(){
                     console.log("checking page");
                     runInPage(window.fetaSource.getCurrentStr(),
@@ -176,13 +181,16 @@ chrome.devtools.panels.create("Feta",
                         alert("set interval error");
                       });
                   },1000);
+                  console.log("cs:",checkStatus);
 
                 });
             }else{
               runInPage(window.fetaSource.stopStr(),
                 function(result){
                   recording=false;
+                  console.log("cs:",checkStatus);
                   clearInterval(checkStatus);
+                  console.log("cs:",checkStatus);
                    btn.update("images/record.png", "Start Recording");
                    _window.msgFromDevtools("saveFile",{data:result});
                  });
