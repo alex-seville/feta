@@ -53,7 +53,7 @@ chrome.devtools.panels.create("Feta",
                             console.log("checking page");
                             runInPage(window.fetaSource.getCurrentStr(),
                             function(result){
-                              console.log("updating array:",result);
+                              console.log("updating array:",result.length);
                               currFetaArray = result;
                             },function(){
                               alert("Checking array error");
