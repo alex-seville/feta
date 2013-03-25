@@ -3,10 +3,9 @@
 
 **Automated regression testing**
 
-Feta runs as a Chrome extension, and as a standalone library.  
 Use Feta to record functional tests of sites, and detect regressions caused by refactoring or maintenance.
 
-Use Feta with PhantomJS to detect regression automatically in your continuous integration pipeline.
+Feta runs as a Chrome extension, and as a standalone library.  You can also use Feta with PhantomJS to detect regression automatically in your continuous integration pipeline.
 
 
 ## Install
@@ -17,6 +16,7 @@ Enable 'developer mode' in Chrome extensions and click 'load unpacked extension'
 ## Usage
 
 **Check out [this walkthrough video](http://www.youtube.com/watch?v=vAzU243xUh0) (no sound yet) to see Feta in action**  
+
 
 ## Automated Test Creation
 
@@ -43,18 +43,17 @@ OR
 **A.** Not at this time.  Feta can only be used for single page apps for the moment.
 
 **Q.** Does it work on windows? mac?  
-**A.** It has been tested on both windows and mac (but not linux)
+**A.** It has been tested on both windows and mac (presumably it works on linux)
 
 **Q.** I got an error alert, what does it mean?  
 **A.** Please report all errors to the issue tracker.  Since Feta is in beta release I appreciate any feedback.
 
-## Todo
- 
--multi-page recording
--cleanup classes in CSS/HTML  
--screenshot to check for css regressions (just in phantom script probably)  
--capture double click, scroll, change events (capturing change events will help to make keypress events more reliable)  
--maybe have test manifest to load multiple tests     
--mock host objects in test (alert, confirm) and add pass throughs to feta for them, but also add option to not do that  
--more qunit tests for lib/feta.js
 
+## Roadmap
+
+v.0.0.2
+-Cleanup of generated test code
+-Minor UI improvements
+
+v.0.0.3
+-Multi-page recording
