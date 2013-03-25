@@ -57,10 +57,10 @@ OR
 
 ## Roadmap
  
-v0.0.2
--Cleanup of generated test
--Minor UI fixes
--Example app
+v0.0.2  
+-Cleanup of generated test  
+-Minor UI fixes  
+-Example app  
 
-v0.0.3
--multipage support
+v0.0.3  
+-multipage support  
