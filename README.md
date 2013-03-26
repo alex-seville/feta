@@ -10,7 +10,7 @@ Feta runs as a Chrome extension, and as a standalone library.  You can also use 
 
 ## Download
 
-You can find a distributable copy of the Chrome extension [here](https://github.com/alex-seville/feta/blob/distributables/v0.0.1.zip?raw=true).
+You can find a distributable copy of the Chrome extension [here](https://github.com/alex-seville/feta/blob/distributables/v0.0.2.zip?raw=true).
 
 The full source can be downloaded from the master branch on GitHub (as a zip or gz) or installed via bower (`bower install feta`).
 
