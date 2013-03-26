@@ -1,6 +1,6 @@
 {
   "name": "Feta",
-  "version": "1.1",
+  "version": "0.0.2",
   "description": "Automated Regression Testing",
   "devtools_page": "devtools.html",
    "options_page": "Panel.html",
