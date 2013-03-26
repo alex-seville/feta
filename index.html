@@ -20,8 +20,8 @@
         <p class="header">Automated Regression Testing</p>
 
         <ul>
-          <li class="download"><a class="buttons" href="https://github.com/alex-seville/feta/zipball/master">Download ZIP</a></li>
-          <li class="download"><a class="buttons" href="https://github.com/alex-seville/feta/tarball/master">Download TAR</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/alex-seville/feta/blob/distributables/v0.0.2.zip?raw=true">Download Extension</a></li>
+         
           <li><a class="buttons github" href="https://github.com/alex-seville/feta">View On GitHub</a></li>
         </ul>
 
@@ -36,45 +36,8 @@
 
 <p><strong>Automated Regression Testing</strong></p>
 
-<p>Feta runs as a Chrome extension, and as a standalone library.<br>
-Use Feta to record functional tests of sites, and detect regressions caused by refactoring or maintenance.</p>
+<p>Visit the Feta project page on GitHub for fully installation and usage instructions.</p>
 
-<p>Use Feta with PhantomJS to detect regression automatically in your continuous integration pipeline.</p>
-
-<h2>Install</h2>
-
-<p>Enable 'developer mode' in Chrome extensions and click 'load unpacked extension'.  Select the <code>dist</code> directory to load the extension.</p>
-
-<h2>Usage</h2>
-
-<p><strong>Check out <a href="http://www.youtube.com/watch?v=vAzU243xUh0">this walkthrough video</a> (no sound yet) to see Feta in action</strong>  </p>
-
-<h2>Automated Test Creation</h2>
-
-<ol>
-<li>Open devtools and click on the Feta tab</li>
-<li>Click <code>Start Recording</code>
-</li>
-<li>Work through typical behaviours on the site</li>
-<li>Click <code>Stop Recording</code> to stop capturing events and create the output script (it will prompt you for a filename)</li>
-<li>A new tab will be created for the test.  From there you can run or download the test.</li>
-<li>Validations can be added to this file, or it can be incorporated into an automated test suite</li>
-</ol><h2>Regression Testing</h2>
-
-<p>-Click <code>Load Script</code> to load a script into the sidebar, and then <code>Run Test</code> to run it.</p>
-
-<p>OR</p>
-
-<p>-Run <code>phantomjs feta/lib/phantom.js &lt;url&gt;</code></p>
-
-<h2>Todo</h2>
-
-<p>-cleanup classes in CSS/HTML<br>
--screenshot to check for css regressions (just in phantom script probably)<br>
--capture double click, scroll, change events (capturing change events will help to make keypress events more reliable)<br>
--maybe have test manifest to load multiple tests<br>
--mock host objects in test (alert, confirm) and add pass throughs to feta for them, but also add option to not do that<br>
--more qunit tests for lib/feta.js</p>
       </section>
       <footer>
         <p><small>Questions? <a href="http://www.twitter.com/alex_seville">@alex_seville</a></small></p>
