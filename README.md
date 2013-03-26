@@ -7,7 +7,7 @@ Use Feta to record (cross browser reusable) functional tests of sites, and detec
 
 Feta runs as a Chrome extension, and as a standalone library.  You can also use Feta with PhantomJS to detect regression automatically in your continuous integration pipeline.
 
-[![ScreenShot](https://raw.github.com/alex-seville/feta/master/screenshot.jpg)](http://www.youtube.com/watch?v=vAzU243xUh0)
+<a target="_blank" href="http://www.youtube.com/watch?v=vAzU243xUh0">![ScreenShot](https://raw.github.com/alex-seville/feta/master/screenshot.jpg)</a>
 
 
 ## Download
