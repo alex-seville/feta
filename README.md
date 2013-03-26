@@ -58,6 +58,6 @@ Enable 'developer mode' in Chrome extensions and click 'load unpacked extension'
 
 ## Roadmap
 
-v.0.0.3
--Multi-page recording
--PhantomJS screenshotting (for CSS regressions)
+v.0.0.3  
+-Multi-page recording  
+-PhantomJS screenshotting (for CSS regressions)  
