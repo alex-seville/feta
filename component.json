@@ -2,9 +2,8 @@
   "name": "feta",
   "version": "0.0.1",
   "main": "./lib/feta.js",
-  "devDependencies": {
+  "dependencies": {
     "qunit": "~1",
-    "blanket": "~1.0.2",
     "jquery": null
   }
 }

@@ -1,5 +1,6 @@
 test( "sibling selector", function() {
     expect(2);
+    QUnit.stop();
   feta.start();
   $("#siblingTest ul li").eq(1).trigger("click");
   feta.stop(function(results){
@@ -14,5 +15,6 @@ test( "sibling selector", function() {
         ok(true,"should fire this");
     });
     eval(results.JS);
+    QUnit.start();
   });
 });

@@ -3,9 +3,9 @@
 
 **Automated regression testing**
 
-Use Feta to record functional tests of sites, and detect regressions caused by refactoring or maintenance.
+Use Feta to record (cross browser reusable) functional tests of sites, and detect regressions caused by refactoring or maintenance.
 
-Feta runs as a Chrome extension, and as a standalone library.  Use Feta with PhantomJS to detect regression automatically in your continuous integration pipeline.
+Feta runs as a Chrome extension, and as a standalone library.  You can also use Feta with PhantomJS to detect regression automatically in your continuous integration pipeline.
 
 
 ## Download
@@ -37,11 +37,9 @@ Enable 'developer mode' in Chrome extensions and click 'load unpacked extension'
 
 ## Regression Testing
 
--Click `Load Script` to load a script into the sidebar, and then `Run Test` to run it.
-
-OR
-
--Run `phantomjs feta/lib/phantom.js <url>`
+-  With the Chrome extension, Click `Load Script` to load a script into the sidebar, and then `Run Test` to run it
+-  OR open up a console on another browser/platform/device and paste the test script it
+-  OR Run `phantomjs feta/lib/phantom.js <url>`
 
 
 ## FAQ
@@ -50,17 +48,14 @@ OR
 **A.** Not at this time.  Feta can only be used for single page apps for the moment.
 
 **Q.** Does it work on windows? mac?  
-**A.** It has been tested on both windows and mac (presumably works on linux)
+**A.** It has been tested on both windows and mac (presumably it works on linux)
 
 **Q.** I got an error alert, what does it mean?  
-**A.** Please report all errors to the issue tracker.  Since Feta is in beta release I appreciate any feedback.
+**A.** Please report all errors to the issue tracker.  Since Feta is in beta release I appreciate any feedback.  In the meantime, you can try closing devtools and refreshing the page.
+
 
 ## Roadmap
- 
-v0.0.2  
--Cleanup of generated test  
--Minor UI fixes  
--Example app  
 
-v0.0.3  
--multipage support  
+v.0.0.3
+-Multi-page recording
+-PhantomJS screenshotting (for CSS regressions)
