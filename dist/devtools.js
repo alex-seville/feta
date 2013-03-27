@@ -6,6 +6,13 @@
 var port = chrome.extension.connect({name:"devtools"});
 
 var errorMessage = "Feta is in beta release.  Please report this error.\n";
+var removeHash=function(url){
+  if (url.indexOf("#") > -1){
+    return url.slice(0,url.indexOf("#")-1);
+  }
+  return url;
+};
+
 
 /* create feta panel in devtools */
 
@@ -26,7 +33,15 @@ chrome.devtools.panels.create("Feta",
         //in this case, we reload feta
         port.onMessage.addListener(function(msg) {
             if (msg.code === "PageChanged"){
-              runInPage(window.fetaSource.loadStr(),doNothing,doNothing);
+              //make sure it's really a new page
+              runInPage(window.fetaSource.hasFeta(),function(hasFeta){
+                if (!hasFeta){
+                  //if feta doesn't exist, re-inject it
+                  runInPage(window.fetaSource.loadStr(),doNothing,doNothing);
+                }
+              },function(err){
+                alert("error detecting feta:",err);
+              });
             }
         });
 

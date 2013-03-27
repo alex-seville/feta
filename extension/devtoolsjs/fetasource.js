@@ -4,6 +4,9 @@ function fetaSrc(){
 fetaSrc.prototype.startStr = function(){
     return "feta.start();";
 };
+fetaSrc.prototype.hasFeta = function(){
+    return "typeof feta !== 'undefined';";
+};
 fetaSrc.prototype.stopStr = function(){
     return "feta.stop(null,true);";
 };
