@@ -37,10 +37,10 @@ chrome.devtools.panels.create("Feta",
               runInPage(window.fetaSource.hasFeta(),function(hasFeta){
                 if (!hasFeta){
                   //if feta doesn't exist, re-inject it
-                  runInPage(window.fetaSource.loadStr(),doNothing,doNothing);
+                  runInPage(window.fetaSource.loadStr(),doNothing,function(){
+                    console.error("error loading feta source");
+                  });
                 }
-              },function(err){
-                alert("error detecting feta:",err);
               });
             }
         });
