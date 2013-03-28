@@ -13,6 +13,8 @@ var removeHash=function(url){
   return url;
 };
 
+var currentEvents=[];
+
 
 /* create feta panel in devtools */
 
@@ -37,7 +39,13 @@ chrome.devtools.panels.create("Feta",
               runInPage(window.fetaSource.hasFeta(),function(hasFeta){
                 if (!hasFeta){
                   //if feta doesn't exist, re-inject it
-                  runInPage(window.fetaSource.loadStr(),doNothing,function(){
+                  runInPage(window.fetaSource.loadStr(),function(){
+                    //once reinjected, if we're recording we want to restart the feta
+                    //recording process.
+                    runInPage(window.fetaSource.startStr(currentEvents),function(){
+                      //should be restarted
+                    },doNothing);
+                  },function(){
                     console.error("error loading feta source");
                   });
                 }

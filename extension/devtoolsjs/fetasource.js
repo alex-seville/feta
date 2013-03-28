@@ -1,7 +1,8 @@
 function fetaSrc(){
     this.source = fetaStr;
 }
-fetaSrc.prototype.startStr = function(){
+fetaSrc.prototype.startStr = function(initial){
+    var initialStr = JSON.string
     return "feta.start();";
 };
 fetaSrc.prototype.hasFeta = function(){
