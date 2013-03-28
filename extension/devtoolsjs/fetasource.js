@@ -2,11 +2,14 @@ function fetaSrc(){
     this.source = fetaStr;
 }
 fetaSrc.prototype.startStr = function(initial){
-    var initialStr = JSON.string
-    return "feta.start();";
+    var initialStr = initial ? JSON.stringify(initial) : "";
+    return "feta.start("+initialStr+");";
 };
 fetaSrc.prototype.hasFeta = function(){
     return "typeof feta !== 'undefined';";
+};
+fetaSrc.prototype.getStackStr = function(){
+    return "feta.getStack();";
 };
 fetaSrc.prototype.stopStr = function(){
     return "feta.stop(null,true);";

@@ -13,7 +13,7 @@ var removeHash=function(url){
   return url;
 };
 
-var currentEvents=[];
+var currentEvents=[],recording=false;
 
 
 /* create feta panel in devtools */
@@ -42,9 +42,12 @@ chrome.devtools.panels.create("Feta",
                   runInPage(window.fetaSource.loadStr(),function(){
                     //once reinjected, if we're recording we want to restart the feta
                     //recording process.
-                    runInPage(window.fetaSource.startStr(currentEvents),function(){
-                      //should be restarted
-                    },doNothing);
+                    if (recording){
+                      console.log("re-starting test with: ",currentEvents);
+                      runInPage(window.fetaSource.startStr(currentEvents),function(){
+                        //should be restarted
+                      },doNothing);
+                    }
                   },function(){
                     console.error("error loading feta source");
                   });
@@ -110,7 +113,10 @@ chrome.devtools.panels.create("Feta",
           runInPage(window.fetaSource.isPlayingStr(),
             function(result){
                 if(!result){
-                    setTimeout(checkIfPlaying,500);
+                    runInPage(window.fetaSource.getStackStr(),function(result){
+                      currentEvents=result;
+                      setTimeout(checkIfPlaying,500);
+                    },doNothing);
                 }else{
                     _window.msgFromDevtools("revertRun",{data: result});
                 }
@@ -120,15 +126,31 @@ chrome.devtools.panels.create("Feta",
             });
         }
 
+         function getStack(){
+          runInPage(window.fetaSource.getStackStr(),
+            function(result){
+              console.log("stack:",result);
+               currentEvents=result;
+                setTimeout(getStack,500);
+            },
+            function(){
+              setTimeout(getStack,500);
+            });
+        }
+
         //we inject feta.start or feta.stop depending on the
         //mode.  we update the panel button as well
         function doFeta(msg) {
             if(msg){
+              currentEvents=[];
+              recording=true;
+              getStack();
               runInPage(window.fetaSource.startStr(),
                 function(){
                   btn.update("images/recording.png", "Stop Recording");
                 });
             }else{
+              recording=false;
               runInPage(window.fetaSource.stopStr(),
                 function(result){
                    btn.update("images/record.png", "Start Recording");
