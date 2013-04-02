@@ -43,10 +43,14 @@ chrome.devtools.panels.create("Feta",
                     //once reinjected, if we're recording we want to restart the feta
                     //recording process.
                     if (recording){
-                      console.log("re-starting test with: ",currentEvents);
-                      runInPage(window.fetaSource.startStr(currentEvents),function(){
+                      setTimeout(function(){
+                     runInPage(window.fetaSource.startStr(),function(){
                         //should be restarted
-                      },doNothing);
+                        console.log("feta restarted");
+                      },function(){
+                        console.log("error restarting feta?");
+                      });
+                   },5000);
                     }
                   },function(){
                     console.error("error loading feta source");
@@ -126,25 +130,12 @@ chrome.devtools.panels.create("Feta",
             });
         }
 
-         function getStack(){
-          runInPage(window.fetaSource.getStackStr(),
-            function(result){
-              console.log("stack:",result);
-               currentEvents=result;
-                setTimeout(getStack,500);
-            },
-            function(){
-              setTimeout(getStack,500);
-            });
-        }
-
         //we inject feta.start or feta.stop depending on the
         //mode.  we update the panel button as well
         function doFeta(msg) {
             if(msg){
               currentEvents=[];
               recording=true;
-              getStack();
               runInPage(window.fetaSource.startStr(),
                 function(){
                   btn.update("images/recording.png", "Stop Recording");
