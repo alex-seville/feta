@@ -60,4 +60,4 @@ Enable 'developer mode' in Chrome extensions and click 'load unpacked extension'
 
 v.0.0.3  
 -Multi-page recording  
--PhantomJS screenshotting (for CSS regressions)  
+-Integration with BlanketJS for code coverage 
