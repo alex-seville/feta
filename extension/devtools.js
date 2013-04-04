@@ -70,7 +70,10 @@ chrome.devtools.panels.create("Feta",
         _window.msgToDevtools = function(code,data){
           if (code === "injectScript"){
             //this is used by loadtest to inject a script onto the page
-            runInPage(data.data,checkIfPlaying);
+            runInPage(data.data,checkIfPlaying,function(){
+              alert("Error injecting script into page.");
+              _window.msgFromDevtools("revertRun",{data: ["Error running script"]});
+            });
             return;
           }
           if (code === "clickRecord"){
@@ -117,16 +120,14 @@ chrome.devtools.panels.create("Feta",
           runInPage(window.fetaSource.isPlayingStr(),
             function(result){
                 if(!result){
-                    runInPage(window.fetaSource.getStackStr(),function(result){
-                      currentEvents=result;
                       setTimeout(checkIfPlaying,500);
-                    },doNothing);
                 }else{
                     _window.msgFromDevtools("revertRun",{data: result});
                 }
             },
             function(err){
               alert(errorMessage+"error playing script, line 96.");
+               _window.msgFromDevtools("revertRun",{data: ["Error running script"]});
             });
         }
 

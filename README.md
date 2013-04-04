@@ -55,9 +55,3 @@ Enable 'developer mode' in Chrome extensions and click 'load unpacked extension'
 **Q.** I got an error alert, what does it mean?  
 **A.** Please report all errors to the issue tracker.  Since Feta is in beta release I appreciate any feedback.  In the meantime, you can try closing devtools and refreshing the page.
 
-
-## Roadmap
-
-v.0.0.3  
--Multi-page recording  
--PhantomJS screenshotting (for CSS regressions)  
