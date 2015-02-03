@@ -18,7 +18,7 @@
     "regression"
   ],
   "author": "alex-seville",
-  "license": "BSD",
+  "license": "MIT",
   "dependencies": {
     "grunt": "~0.4.0",
     "grunt-contrib-uglify": "~0.1.2",
